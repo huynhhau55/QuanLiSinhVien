@@ -1,18 +1,10 @@
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JMenuBar;
-import javax.swing.JPopupMenu;
-import java.awt.Component;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.JLabel;
-import javax.swing.JMenuItem;
 
-public class GiaoVuForm extends JFrame {
+public class GiaoVuForm {
+
+	public JFrame frmGiaoVu;
 
 	/**
 	 * Launch the application.
@@ -21,8 +13,8 @@ public class GiaoVuForm extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GiaoVuForm frame = new GiaoVuForm();
-					frame.setVisible(true);
+					GiaoVuForm window = new GiaoVuForm();
+					window.frmGiaoVu.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -31,13 +23,19 @@ public class GiaoVuForm extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * Create the application.
 	 */
 	public GiaoVuForm() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		initialize();
 	}
 
-	private static void addPopup(Component component, final JPopupMenu popup) {
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frmGiaoVu = new JFrame();
+		frmGiaoVu.setBounds(100, 100, 450, 300);
+		frmGiaoVu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
+
 }

@@ -6,6 +6,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
 
+import com.sun.java.swing.plaf.windows.resources.windows;
+
 import Mypack.Account;
 
 import javax.swing.JPasswordField;
@@ -79,7 +81,7 @@ public class LoginForm {
 				
 				boolean flag1 = false;//Bo qua vong lap dau tien vi dong dau la tieu de
 				boolean flag2 = false;//Cho biet den cuoi file ma van chua tim duoc user
-				List<Account> Accounts = Account.readAccounts("C:\\Users\\Mr Hau\\eclipse-workspace\\Hello\\b.csv");
+				List<Account> Accounts = Account.readAccounts("C:\\Users\\Mr Hau\\File Do An\\Java\\ltudjava-18hcb-18424024-bt1\\matkhau.csv");
 			
 					for(Account a : Accounts) {
 						if(flag1 == false) {
@@ -92,14 +94,18 @@ public class LoginForm {
 					
 					if (uname.equals(a.user)&& pass.equals(a.pass)) {
 						flag2 = true;
-						JOptionPane.showMessageDialog(frmLogin, "Sucessfull");
+						GiaoVuForm giaoVu = new GiaoVuForm();
+						frmLogin.setVisible(false);
+						giaoVu.frmGiaoVu.setVisible(true);
 						break;
 					}
+					
 				}
 					if (flag2 == false) {
-						JOptionPane.showMessageDialog(frmLogin, "Error");
+						JOptionPane.showMessageDialog(frmLogin, "Please, check your account again !");
 						
 					}
+					
 				
 				
 			
