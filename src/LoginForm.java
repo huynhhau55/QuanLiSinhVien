@@ -97,6 +97,7 @@ public class LoginForm {
 						GiaoVuForm giaoVu = new GiaoVuForm();
 						frmLogin.setVisible(false);
 						giaoVu.frmGiaoVu.setVisible(true);
+						giaoVu.frmGiaoVu.setExtendedState(giaoVu.frmGiaoVu.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 						break;
 					}
 					
