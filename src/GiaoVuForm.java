@@ -11,6 +11,7 @@ import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JToggleButton;
 import javax.swing.JMenu;
@@ -31,6 +32,7 @@ public class GiaoVuForm {
 	private JTable table;
 	private JTextField txtNhapVaoTen;
 	private JLabel lblNhapTenLop;
+	private JButton btnBack;
 	
 
 	/**
@@ -61,13 +63,14 @@ public class GiaoVuForm {
 	 */
 	private void initialize() {
 		frmGiaoVu = new JFrame();
-		frmGiaoVu.setBounds(100, 100, 692, 515);
+		frmGiaoVu.setTitle("Danh Sach Lop");
+		frmGiaoVu.setBounds(100, 100, 809, 567);
 		frmGiaoVu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmGiaoVu.getContentPane().setLayout(null);
 		
 		table = new JTable();
 		
-		table.setBounds(55, 80, 568, 348);
+		table.setBounds(28, 80, 734, 415);
 		frmGiaoVu.getContentPane().add(table);
 		
 		JButton btnNewButton = new JButton("Import");
@@ -106,7 +109,7 @@ public class GiaoVuForm {
 					
 					
 				} catch (Exception e) {
-					// TODO: handle exception
+					JOptionPane.showMessageDialog(frmGiaoVu,"Nhap sai ten hoac khong ton tai");
 				}
 				
 				
@@ -114,18 +117,22 @@ public class GiaoVuForm {
 				
 			}
 		});
-		btnNewButton.setBounds(213, 35, 115, 29);
+		btnNewButton.setBounds(144, 35, 115, 29);
 		frmGiaoVu.getContentPane().add(btnNewButton);
 		
 		txtNhapVaoTen = new JTextField();
-		txtNhapVaoTen.setBounds(359, 36, 146, 26);
+		txtNhapVaoTen.setBounds(310, 38, 146, 26);
 		frmGiaoVu.getContentPane().add(txtNhapVaoTen);
 		txtNhapVaoTen.setColumns(10);
 		
 		lblNhapTenLop = new JLabel("Nhap ten lop");
 		lblNhapTenLop.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNhapTenLop.setBounds(359, 16, 146, 20);
+		lblNhapTenLop.setBounds(310, 18, 146, 20);
 		frmGiaoVu.getContentPane().add(lblNhapTenLop);
+		
+		btnBack = new JButton("Back");
+		btnBack.setBounds(502, 35, 115, 29);
+		frmGiaoVu.getContentPane().add(btnBack);
 		
 		
 	}
