@@ -33,6 +33,7 @@ public class LoginForm {
 			public void run() {
 				try {
 					LoginForm window = new LoginForm();
+					window.frmLogin.setLocationRelativeTo(null);
 					window.frmLogin.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -90,13 +91,14 @@ public class LoginForm {
 						}
 						
 					String uname=textPane_userName.getText();
-					String pass=passwordField_password.getText();
+					String pass=String.valueOf( passwordField_password.getPassword());
 					
 					if (uname.equals(a.user)&& pass.equals(a.pass)) {
 						flag2 = true;
 						GiaoVuForm giaoVu = new GiaoVuForm();
 						frmLogin.setVisible(false);
 						giaoVu.frmGiaoVu.setVisible(true);
+						giaoVu.frmGiaoVu.setLocationRelativeTo(null);
 						giaoVu.frmGiaoVu.setExtendedState(giaoVu.frmGiaoVu.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 						break;
 					}
@@ -130,6 +132,7 @@ public class LoginForm {
 			public void mouseClicked(MouseEvent arg0) {
 				frmLogin.setVisible(false);
 				ChangePasswordForm changePasswordF = new ChangePasswordForm();
+				changePasswordF.frmChangePassword.setLocationRelativeTo(null);
 				changePasswordF.frmChangePassword.setVisible(true);
 				
 						
