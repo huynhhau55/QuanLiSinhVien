@@ -1,20 +1,12 @@
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JButton;
-import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
-
-import com.sun.java.swing.plaf.windows.resources.windows;
-
-import Mypack.Account;
-
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -83,12 +75,13 @@ public class LoginForm {
 				boolean flag1 = false;//Bo qua vong lap dau tien vi dong dau la tieu de
 				boolean flag2 = false;//Cho biet den cuoi file ma van chua tim duoc user
 				List<Account> Accounts = Account.readAccounts("C:\\Users\\Mr Hau\\File Do An\\Java\\ltudjava-18hcb-18424024-bt1\\matkhau.csv");
-			
+				int size = Accounts.size();
 					for(Account a : Accounts) {
 						if(flag1 == false) {
 							flag1 = true;
 							continue;
 						}
+					
 						
 					String uname=textPane_userName.getText();
 					String pass=String.valueOf( passwordField_password.getPassword());

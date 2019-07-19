@@ -68,7 +68,7 @@ public class ThoiKhoaBieuForm {
 		btnImport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				String filePath =txtImport.getText() + "TKB.csv";
+				String filePath = ".\\TKB\\" + txtImport.getText() + "TKB.csv";
 				try {
 					
 					BufferedReader br =new BufferedReader(new FileReader(new File(filePath)));
@@ -101,7 +101,6 @@ public class ThoiKhoaBieuForm {
 		});
 		btnImport.setBounds(160, 53, 115, 29);
 		frmThoiKhoaBieu.getContentPane().add(btnImport);
-		
 		txtImport = new JTextField();
 		txtImport.setBounds(316, 54, 146, 26);
 		frmThoiKhoaBieu.getContentPane().add(txtImport);

@@ -27,7 +27,7 @@ public class Account {
 	}
 	 @Override
 	    public String toString() {
-	        return ""+user+" "+ pass+"";
+	        return user + pass;
 	 }
 	 public static List<Account> readAccounts (String fileName){
 		 List<Account> accounts = new ArrayList<>();

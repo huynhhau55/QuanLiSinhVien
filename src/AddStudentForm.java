@@ -1,37 +1,37 @@
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
-import javax.swing.SpringLayout;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class AddStudentForm {
 
 	private JFrame frmAddSd;
 	private JTable table;
 	private JTextField txtMSSV;
-	private JTextField txtGioiTinh;
+	private JTextField txtLop;
 	private JTextField txtHoTen;
 	private JLabel lblCmnd;
 	private JTextField txtCMND;
-	private JLabel lblLop;
-	private JTextField txtLop;
+	private JLabel lblGioiTinh;
+	private JTextField txtGioiTinh;
 	private JButton btnThem;
 	private JButton btnMacDinh;
+	
 	
 
 	/**
@@ -60,6 +60,40 @@ public class AddStudentForm {
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	private void loadSinhVien() {
+		
+		try {
+			
+			String filePath = txtLop.getText() + ".csv";
+			BufferedReader br = new BufferedReader(new FileReader(new File(filePath)));
+			List<String[]> elements = new ArrayList<String[]>();
+			String line = null;
+			while((line = br.readLine()) != null ) {
+				
+				String[] spiltted = line.split(";");
+				elements.add(spiltted);
+			
+			}
+			br.close();
+			String[] columsName = new String[] {
+					"STT","MSSV","Ho Ten","Gioi Tinh", "CMND", "Lop"							
+			};
+			Object[][] content = new Object[elements.size()][6];
+			for(int i = 0; i < elements.size(); i++) {
+				for(int j = 0; j < 6; j++) {
+					
+					content[i][j] = elements.get(i)[j];
+				}
+			}
+			table.setModel(new DefaultTableModel(content,columsName));
+		}catch (Exception e2) {
+			
+			e2.printStackTrace();
+			
+			}
+		
+		
+	}
 	private void initialize() {
 		frmAddSd = new JFrame();
 		frmAddSd.setTitle("Add Student");
@@ -68,6 +102,7 @@ public class AddStudentForm {
 		frmAddSd.getContentPane().setLayout(null);
 		
 		table = new JTable();
+		
 		table.setBounds(51, 201, 519, 241);
 		frmAddSd.getContentPane().add(table);
 		
@@ -80,14 +115,20 @@ public class AddStudentForm {
 		lblMssv.setBounds(51, 24, 69, 20);
 		frmAddSd.getContentPane().add(lblMssv);
 		
-		JLabel lblGioiTinh = new JLabel("Gioi Tinh");
-		lblGioiTinh.setBounds(51, 64, 69, 20);
-		frmAddSd.getContentPane().add(lblGioiTinh);
+		JLabel lblLop = new JLabel("Lop");
+		lblLop.setBounds(51, 64, 69, 20);
+		frmAddSd.getContentPane().add(lblLop);
 		
-		txtGioiTinh = new JTextField();
-		txtGioiTinh.setColumns(10);
-		txtGioiTinh.setBounds(143, 60, 146, 29);
-		frmAddSd.getContentPane().add(txtGioiTinh);
+		txtLop = new JTextField();
+		txtLop.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				loadSinhVien();
+			}
+		});
+		txtLop.setColumns(10);
+		txtLop.setBounds(143, 60, 146, 29);
+		frmAddSd.getContentPane().add(txtLop);
 		
 		JLabel lblHoTen = new JLabel("Ho Ten");
 		lblHoTen.setBounds(332, 24, 69, 20);
@@ -107,37 +148,47 @@ public class AddStudentForm {
 		txtCMND.setBounds(424, 64, 146, 29);
 		frmAddSd.getContentPane().add(txtCMND);
 		
-		lblLop = new JLabel("Lop");
-		lblLop.setBounds(51, 104, 69, 20);
-		frmAddSd.getContentPane().add(lblLop);
+		lblGioiTinh = new JLabel("Gioi Tinh");
+		lblGioiTinh.setBounds(51, 104, 69, 20);
+		frmAddSd.getContentPane().add(lblGioiTinh);
 		
-		txtLop = new JTextField();
-		txtLop.setColumns(10);
-		txtLop.setBounds(143, 100, 146, 29);
-		frmAddSd.getContentPane().add(txtLop);
+		txtGioiTinh = new JTextField();
+		txtGioiTinh.setColumns(10);
+		txtGioiTinh.setBounds(143, 100, 146, 29);
+		frmAddSd.getContentPane().add(txtGioiTinh);
 		
 		btnThem = new JButton("Add");
 		btnThem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				try {
-				
+					
 					String filePath = txtLop.getText() + ".csv";
 					List<Student> Students = Student.readStudents(filePath);
-					Student sd = new Student(Students.size(), txtMSSV.getText(), txtHoTen.getText(), 
+					String stt = Integer.toString(Students.size());
+					Student sd = new Student(stt, txtMSSV.getText(), txtHoTen.getText(), 
 										txtGioiTinh.getText(),txtCMND.getText() , txtLop.getText());
 					FileWriter fw = new FileWriter(filePath,true);
 					BufferedWriter bw = new BufferedWriter(fw);
 					PrintWriter pw = new PrintWriter(bw);
-					pw.println(sd.sttStudent +";"+ sd.studentID + ";"+ sd.nameStudent + ";" + 
+					pw.println(sd.sttStudent + ";" + sd.studentID + ";" + sd.nameStudent + ";" + 
 							   sd.genderStudent + ";" + sd.identityCard + ";" + sd.classRoom );
+					
 					pw.close();
-					JOptionPane.showMessageDialog(frmAddSd,"Successful");
+					loadSinhVien();
+					txtCMND.setText("");
+					txtGioiTinh.setText("");
+					txtHoTen.setText("");
+					txtLop.setText("");
+					txtMSSV.setText("");
+					
+					
 				}
 				catch(Exception ioe) {
 					
-					JOptionPane.showMessageDialog(frmAddSd,"Fail");
-				}
+					ioe.printStackTrace();
+				}	
+				
 			}
 		});
 		btnThem.setBounds(143, 145, 115, 29);
