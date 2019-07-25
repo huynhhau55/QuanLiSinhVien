@@ -74,7 +74,7 @@ public class LoginForm {
 				
 				boolean flag1 = false;//Bo qua vong lap dau tien vi dong dau la tieu de
 				boolean flag2 = false;//Cho biet den cuoi file ma van chua tim duoc user
-				List<Account> Accounts = Account.readAccounts("C:\\Users\\Mr Hau\\File Do An\\Java\\ltudjava-18hcb-18424024-bt1\\matkhau.csv");
+				List<Account> Accounts = Account.readAccounts("matkhau.csv");
 				int size = Accounts.size();
 					for(Account a : Accounts) {
 						if(flag1 == false) {

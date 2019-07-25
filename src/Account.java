@@ -32,7 +32,7 @@ public class Account {
 	 public static List<Account> readAccounts (String fileName){
 		 List<Account> accounts = new ArrayList<>();
 		 Path pathToFile = Paths.get(fileName);
-		 try(BufferedReader br = Files.newBufferedReader(pathToFile,StandardCharsets.UTF_8)){
+		 try(BufferedReader br = Files.newBufferedReader(pathToFile)){
 			 String line = br.readLine();
 			 while(line != null) {
 				 String[] attributes = line.split(";");
@@ -40,7 +40,9 @@ public class Account {
 				 accounts.add(account);
 				 line = br.readLine();
 			 }
+			 br.close();
 		 }
+		 
 		 catch (Exception ioe) {
 			ioe.printStackTrace();
 		}

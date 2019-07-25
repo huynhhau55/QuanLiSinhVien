@@ -6,6 +6,7 @@ import java.awt.Button;
 import java.awt.BorderLayout;
 import javax.swing.JMenuBar;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JPopupMenu;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
@@ -17,12 +18,17 @@ import javax.swing.JToggleButton;
 import javax.swing.JMenu;
 import javax.swing.JToolBar;
 import javax.swing.table.DefaultTableModel;
+
+import com.sun.javafx.collections.SetListenerHelper;
+
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import java.awt.Color;
+import java.awt.Font;
 
 
 
@@ -30,9 +36,9 @@ public class GiaoVuForm {
 
 	public JFrame frmGiaoVu;
 	private JTable table;
-	private JTextField txtNhapVaoTen;
-	private JLabel lblNhapTenLop;
+	public JTextField txtDuongDan;
 	private JButton btnBack;
+	private JLabel lblImportVaoDanh;
 	
 
 	/**
@@ -73,11 +79,15 @@ public class GiaoVuForm {
 		table.setBounds(28, 80, 734, 415);
 		frmGiaoVu.getContentPane().add(table);
 		
-		JButton btnNewButton = new JButton("Import");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnImport = new JButton("Import");
+		btnImport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					String fileName = txtNhapVaoTen.getText() + ".csv";
+					JFileChooser chooser = new JFileChooser();
+					chooser.showOpenDialog(null);
+					File f = chooser.getSelectedFile() ;
+					String fileName = f.getAbsolutePath();
+					txtDuongDan.setText(fileName);
 					BufferedReader br  = new BufferedReader(new FileReader(new File(fileName)));
 					List<String[]> elements = new ArrayList<String[]>();
 					String line = null;
@@ -109,7 +119,7 @@ public class GiaoVuForm {
 					
 					
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(frmGiaoVu,"Nhap sai ten hoac khong ton tai");
+					
 				}
 				
 				
@@ -117,22 +127,24 @@ public class GiaoVuForm {
 				
 			}
 		});
-		btnNewButton.setBounds(144, 35, 115, 29);
-		frmGiaoVu.getContentPane().add(btnNewButton);
+		btnImport.setBounds(28, 37, 115, 29);
+		frmGiaoVu.getContentPane().add(btnImport);
 		
-		txtNhapVaoTen = new JTextField();
-		txtNhapVaoTen.setBounds(310, 38, 146, 26);
-		frmGiaoVu.getContentPane().add(txtNhapVaoTen);
-		txtNhapVaoTen.setColumns(10);
-		
-		lblNhapTenLop = new JLabel("Nhap ten lop");
-		lblNhapTenLop.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNhapTenLop.setBounds(310, 18, 146, 20);
-		frmGiaoVu.getContentPane().add(lblNhapTenLop);
+		txtDuongDan = new JTextField();
+		txtDuongDan.setBounds(176, 38, 439, 26);
+		frmGiaoVu.getContentPane().add(txtDuongDan);
+		txtDuongDan.setColumns(10);
 		
 		btnBack = new JButton("Back");
-		btnBack.setBounds(502, 35, 115, 29);
+		btnBack.setBounds(647, 35, 115, 29);
 		frmGiaoVu.getContentPane().add(btnBack);
+		
+		lblImportVaoDanh = new JLabel("IMPORT VAO DANH SACH LOP");
+		lblImportVaoDanh.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblImportVaoDanh.setForeground(Color.RED);
+		lblImportVaoDanh.setHorizontalAlignment(SwingConstants.CENTER);
+		lblImportVaoDanh.setBounds(176, 2, 439, 39);
+		frmGiaoVu.getContentPane().add(lblImportVaoDanh);
 		
 		
 	}

@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -5,11 +6,15 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+
+import com.sun.xml.internal.ws.api.server.Container;
 
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -24,7 +29,7 @@ public class ThoiKhoaBieuForm {
 
 	private JFrame frmThoiKhoaBieu;
 	private JTable table;
-	private JTextField txtImport;
+	private JTextField txtDuongDan;
 	private JButton btnBack;
 
 	/**
@@ -68,9 +73,13 @@ public class ThoiKhoaBieuForm {
 		btnImport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				String filePath = ".\\TKB\\" + txtImport.getText() + "TKB.csv";
+				
 				try {
-					
+					JFileChooser chooser = new JFileChooser();
+					chooser.showOpenDialog(null);
+					File f = chooser.getSelectedFile();
+					String filePath = f.getAbsolutePath();
+					txtDuongDan.setText(filePath);					
 					BufferedReader br =new BufferedReader(new FileReader(new File(filePath)));
 					List<String[]> elements = new ArrayList<String[]>();
 					String line = null;
@@ -99,20 +108,15 @@ public class ThoiKhoaBieuForm {
 				
 			}
 		});
-		btnImport.setBounds(160, 53, 115, 29);
+		btnImport.setBounds(31, 53, 115, 29);
 		frmThoiKhoaBieu.getContentPane().add(btnImport);
-		txtImport = new JTextField();
-		txtImport.setBounds(316, 54, 146, 26);
-		frmThoiKhoaBieu.getContentPane().add(txtImport);
-		txtImport.setColumns(10);
-		
-		JLabel lblNewLabel = new JLabel("Nhao vao ten lop");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(316, 28, 146, 20);
-		frmThoiKhoaBieu.getContentPane().add(lblNewLabel);
+		txtDuongDan = new JTextField();
+		txtDuongDan.setBounds(189, 54, 415, 26);
+		frmThoiKhoaBieu.getContentPane().add(txtDuongDan);
+		txtDuongDan.setColumns(10);
 		
 		btnBack = new JButton("Back");
-		btnBack.setBounds(498, 53, 115, 29);
+		btnBack.setBounds(643, 53, 115, 29);
 		frmThoiKhoaBieu.getContentPane().add(btnBack);
 	}
 }

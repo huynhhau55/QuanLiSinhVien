@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
@@ -5,6 +6,8 @@ import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -17,6 +20,8 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import javax.swing.JComboBox;
+import javax.swing.JScrollBar;
 
 public class AddStudentForm {
 
@@ -28,9 +33,9 @@ public class AddStudentForm {
 	private JLabel lblCmnd;
 	private JTextField txtCMND;
 	private JLabel lblGioiTinh;
-	private JTextField txtGioiTinh;
 	private JButton btnThem;
 	private JButton btnMacDinh;
+	private JScrollBar scrollBar;
 	
 	
 
@@ -101,10 +106,14 @@ public class AddStudentForm {
 		frmAddSd.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmAddSd.getContentPane().setLayout(null);
 		
-		table = new JTable();
+	
 		
-		table.setBounds(51, 201, 519, 241);
+		table = new JTable();
+		table.setBounds(51, 201, 519, 241);		
 		frmAddSd.getContentPane().add(table);
+		
+		
+		
 		
 		txtMSSV = new JTextField();
 		txtMSSV.setBounds(143, 20, 146, 29);
@@ -152,10 +161,11 @@ public class AddStudentForm {
 		lblGioiTinh.setBounds(51, 104, 69, 20);
 		frmAddSd.getContentPane().add(lblGioiTinh);
 		
-		txtGioiTinh = new JTextField();
-		txtGioiTinh.setColumns(10);
-		txtGioiTinh.setBounds(143, 100, 146, 29);
-		frmAddSd.getContentPane().add(txtGioiTinh);
+		JComboBox<String> cbbGioiTinh = new JComboBox<String>();
+		cbbGioiTinh.setBounds(143, 101, 146, 26);
+		frmAddSd.getContentPane().add(cbbGioiTinh);
+		cbbGioiTinh.addItem("Nam");
+		cbbGioiTinh.addItem("Nu");
 		
 		btnThem = new JButton("Add");
 		btnThem.addActionListener(new ActionListener() {
@@ -166,8 +176,9 @@ public class AddStudentForm {
 					String filePath = txtLop.getText() + ".csv";
 					List<Student> Students = Student.readStudents(filePath);
 					String stt = Integer.toString(Students.size());
+					String gioiTinh = String.valueOf(cbbGioiTinh.getSelectedItem());
 					Student sd = new Student(stt, txtMSSV.getText(), txtHoTen.getText(), 
-										txtGioiTinh.getText(),txtCMND.getText() , txtLop.getText());
+										gioiTinh,txtCMND.getText() , txtLop.getText());
 					FileWriter fw = new FileWriter(filePath,true);
 					BufferedWriter bw = new BufferedWriter(fw);
 					PrintWriter pw = new PrintWriter(bw);
@@ -177,7 +188,6 @@ public class AddStudentForm {
 					pw.close();
 					loadSinhVien();
 					txtCMND.setText("");
-					txtGioiTinh.setText("");
 					txtHoTen.setText("");
 					txtLop.setText("");
 					txtMSSV.setText("");
@@ -201,5 +211,8 @@ public class AddStudentForm {
 		});
 		btnMacDinh.setBounds(355, 145, 115, 29);
 		frmAddSd.getContentPane().add(btnMacDinh);
+		
+	
+		
 	}
 }

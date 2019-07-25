@@ -29,42 +29,23 @@ public class ChangePasswordForm {
 	 * Launch the application.
 	 */
 	
-	public static void editRecord(String filePath, String user, String pass) {
+	public static void editRecord(String filePath, List<Account> Accounts) {
 		
-		String tempFile = "temp.txt" ;
-		File oldFile = new File(filePath);
-		File newFile = new File(tempFile);
-		String userN = ""; String passW = "";
 		try {
 			
-			FileWriter fw = new FileWriter(tempFile, true);
-			BufferedWriter bw = new BufferedWriter(fw);
-			PrintWriter pw = new PrintWriter(bw);
-			x = new Scanner(new File(filePath));
-			x.useDelimiter("[;\n]");
-			
-			while (x.hasNext()) {
-				
-				userN = x.next();
-				passW = x.next();
-				if (userN.equals(user)) {
-					
-					pw.println(user + ";" + pass);
-					
+			PrintWriter pw = new PrintWriter(filePath);
+			int i =Accounts.size();
+			for(Account a : Accounts ) {
+				if(--i == 0 ){ 
+					pw.print(a.user + ";" + a.pass );
 				}
-				
 				else {
-					pw.print(userN + ";" + passW);
+					pw.println(a.user + ";" + a.pass );
 				}
 				
 			}
-			x.close();
-			pw.flush();
 			pw.close();
-			oldFile.delete();
-			File dump = new File(filePath);
-			newFile.renameTo(dump);
-			
+		
 		} catch (Exception e) {
 			System.out.printf("Error");
 		}	
@@ -158,7 +139,7 @@ public class ChangePasswordForm {
 				
 				boolean flag1 = false;//Bo qua vong lap dau tien vi dong dau la tieu de
 				boolean flag2 = false;//Cho biet den cuoi file ma van chua tim duoc user
-				String filePath = "matkhau.txt" ;
+				String filePath = "matkhau.csv" ;
 				List<Account> Accounts = Account.readAccounts(filePath);
 			
 				String uname = txtUsername.getText();
@@ -176,6 +157,7 @@ public class ChangePasswordForm {
 					if ((uname.equals(a.user) && passOld.equals(a.pass)) && 
 							(!(passNew.isEmpty()) && (!(passConf.isEmpty()) && 
 							 (passNew.equals(passConf))))){
+						a.pass = passNew;
 						flag2 = true;
 						break;
 					}
@@ -188,7 +170,7 @@ public class ChangePasswordForm {
 					
 				}
 				
-				editRecord(filePath,uname,passNew);
+				editRecord(filePath,Accounts);
 					
 			}
 		});
