@@ -20,6 +20,7 @@ import javax.swing.JToolBar;
 import javax.swing.table.DefaultTableModel;
 
 import com.sun.javafx.collections.SetListenerHelper;
+import com.sun.javafx.geom.Rectangle;
 
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
@@ -39,6 +40,7 @@ public class GiaoVuForm {
 	public JTextField txtDuongDan;
 	private JButton btnBack;
 	private JLabel lblImportVaoDanh;
+	private JScrollPane scrollPane;
 	
 
 	/**
@@ -49,6 +51,7 @@ public class GiaoVuForm {
 			public void run() {
 				try {
 					GiaoVuForm window = new GiaoVuForm();
+					window.frmGiaoVu.setLocationRelativeTo(null);
 					window.frmGiaoVu.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -70,14 +73,9 @@ public class GiaoVuForm {
 	private void initialize() {
 		frmGiaoVu = new JFrame();
 		frmGiaoVu.setTitle("Danh Sach Lop");
-		frmGiaoVu.setBounds(100, 100, 809, 567);
+		frmGiaoVu.setBounds(100, 100, 1107, 660);
 		frmGiaoVu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmGiaoVu.getContentPane().setLayout(null);
-		
-		table = new JTable();
-		
-		table.setBounds(28, 80, 734, 415);
-		frmGiaoVu.getContentPane().add(table);
 		
 		JButton btnImport = new JButton("Import");
 		btnImport.addActionListener(new ActionListener() {
@@ -127,24 +125,45 @@ public class GiaoVuForm {
 				
 			}
 		});
-		btnImport.setBounds(28, 37, 115, 29);
+		btnImport.setBounds(149, 78, 127, 39);
 		frmGiaoVu.getContentPane().add(btnImport);
 		
 		txtDuongDan = new JTextField();
-		txtDuongDan.setBounds(176, 38, 439, 26);
+		txtDuongDan.setBounds(318, 78, 447, 39);
 		frmGiaoVu.getContentPane().add(txtDuongDan);
 		txtDuongDan.setColumns(10);
 		
 		btnBack = new JButton("Back");
-		btnBack.setBounds(647, 35, 115, 29);
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frmGiaoVu.setVisible(false);
+				LoginForm login = new LoginForm();
+				login.frmLogin.setLocationRelativeTo(null);
+				login.frmLogin.setVisible(true);
+				
+			}
+		});
+		btnBack.setBounds(815, 78, 127, 39);
 		frmGiaoVu.getContentPane().add(btnBack);
 		
 		lblImportVaoDanh = new JLabel("IMPORT VAO DANH SACH LOP");
 		lblImportVaoDanh.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblImportVaoDanh.setForeground(Color.RED);
 		lblImportVaoDanh.setHorizontalAlignment(SwingConstants.CENTER);
-		lblImportVaoDanh.setBounds(176, 2, 439, 39);
+		lblImportVaoDanh.setBounds(320, 24, 447, 46);
 		frmGiaoVu.getContentPane().add(lblImportVaoDanh);
+		
+		scrollPane = new JScrollPane();
+		frmGiaoVu.getContentPane().add(scrollPane);
+		scrollPane.setBounds(15, 133, 1055, 471);
+		scrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		
+		
+		
 		
 		
 	}

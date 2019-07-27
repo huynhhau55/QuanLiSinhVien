@@ -18,9 +18,8 @@ import javax.swing.JTextPane;
 
 public class ChangePasswordForm {
 
-	private static Scanner x;
 	
-	public JFrame frmChangePassword;
+	public  JFrame frmChangePassword;
 	private JPasswordField passwOld;
 	private JPasswordField passwNew;
 	private JPasswordField passwConf;
@@ -45,9 +44,8 @@ public class ChangePasswordForm {
 				
 			}
 			pw.close();
-		
 		} catch (Exception e) {
-			System.out.printf("Error");
+			System.out.printf("That bai");
 		}	
 	}
 	
@@ -56,6 +54,7 @@ public class ChangePasswordForm {
 			public void run() {
 				try {
 					ChangePasswordForm window = new ChangePasswordForm();
+					window.frmChangePassword.setLocationRelativeTo(null);
 					window.frmChangePassword.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -77,20 +76,20 @@ public class ChangePasswordForm {
 	private void initialize() {
 		frmChangePassword = new JFrame();
 		frmChangePassword.setTitle("Change Password");
-		frmChangePassword.setBounds(100, 100, 450, 300);
+		frmChangePassword.setBounds(100, 100, 591, 357);
 		frmChangePassword.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmChangePassword.getContentPane().setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Old Password");
-		lblNewLabel.setBounds(36, 65, 166, 20);
+		lblNewLabel.setBounds(15, 76, 166, 20);
 		frmChangePassword.getContentPane().add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("New Password");
-		lblNewLabel_1.setBounds(36, 102, 166, 29);
+		lblNewLabel_1.setBounds(15, 125, 166, 29);
 		frmChangePassword.getContentPane().add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Confirm New Password");
-		lblNewLabel_2.setBounds(36, 147, 177, 20);
+		lblNewLabel_2.setBounds(15, 182, 177, 20);
 		frmChangePassword.getContentPane().add(lblNewLabel_2);
 		
 		
@@ -99,40 +98,41 @@ public class ChangePasswordForm {
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				frmChangePassword.setVisible(false);
 				LoginForm login = new LoginForm();
 				login.frmLogin.setLocationRelativeTo(null);
 				login.frmLogin.setVisible(true);
 			}
 		});
-		btnCancel.setBounds(231, 199, 135, 29);
+		btnCancel.setBounds(317, 248, 140, 37);
 		frmChangePassword.getContentPane().add(btnCancel);
 		
 		passwOld = new JPasswordField();
-		passwOld.setBounds(210, 62, 156, 26);
+		passwOld.setBounds(217, 68, 319, 37);
 		frmChangePassword.getContentPane().add(passwOld);
 		
 		passwNew = new JPasswordField();
-		passwNew.setBounds(210, 104, 156, 26);
+		passwNew.setBounds(217, 174, 319, 37);
 		frmChangePassword.getContentPane().add(passwNew);
 		
 		passwConf = new JPasswordField();
-		passwConf.setBounds(209, 144, 157, 26);
+		passwConf.setBounds(217, 121, 319, 37);
 		frmChangePassword.getContentPane().add(passwConf);
 		
 		JLabel lblNewLabel_3 = new JLabel("Username");
-		lblNewLabel_3.setBounds(36, 20, 166, 29);
+		lblNewLabel_3.setBounds(15, 27, 166, 29);
 		frmChangePassword.getContentPane().add(lblNewLabel_3);
 		
 		JTextPane txtUsername = new JTextPane();
-		txtUsername.setBounds(210, 20, 156, 26);
+		txtUsername.setBounds(217, 15, 319, 37);
 		frmChangePassword.getContentPane().add(txtUsername);
 		
 	
 		
 		
 		JButton btnSave = new JButton("Save");
-		btnSave.setBounds(36, 199, 129, 29);
+		btnSave.setBounds(110, 248, 140, 37);
 		frmChangePassword.getContentPane().add(btnSave);
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -171,6 +171,12 @@ public class ChangePasswordForm {
 				}
 				
 				editRecord(filePath,Accounts);
+				txtUsername.setText("");
+				passwOld.setText("");
+				passwNew.setText("");
+				passwConf.setText("");
+				
+				JOptionPane.showMessageDialog(frmChangePassword,"Thanh cong");
 					
 			}
 		});

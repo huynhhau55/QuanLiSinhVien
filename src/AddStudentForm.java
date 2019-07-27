@@ -36,6 +36,7 @@ public class AddStudentForm {
 	private JButton btnThem;
 	private JButton btnMacDinh;
 	private JScrollBar scrollBar;
+	private JScrollPane scrollPane;
 	
 	
 
@@ -47,6 +48,7 @@ public class AddStudentForm {
 			public void run() {
 				try {
 					AddStudentForm window = new AddStudentForm();
+					window.frmAddSd.setLocationRelativeTo(null);
 					window.frmAddSd.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -102,30 +104,24 @@ public class AddStudentForm {
 	private void initialize() {
 		frmAddSd = new JFrame();
 		frmAddSd.setTitle("Add Student");
-		frmAddSd.setBounds(100, 100, 640, 540);
+		frmAddSd.setBounds(100, 100, 1107, 660);
 		frmAddSd.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmAddSd.getContentPane().setLayout(null);
-		
-	
-		
-		table = new JTable();
-		table.setBounds(51, 201, 519, 241);		
-		frmAddSd.getContentPane().add(table);
 		
 		
 		
 		
 		txtMSSV = new JTextField();
-		txtMSSV.setBounds(143, 20, 146, 29);
+		txtMSSV.setBounds(143, 55, 146, 29);
 		frmAddSd.getContentPane().add(txtMSSV);
 		txtMSSV.setColumns(10);
 		
 		JLabel lblMssv = new JLabel("MSSV");
-		lblMssv.setBounds(51, 24, 69, 20);
+		lblMssv.setBounds(59, 59, 69, 20);
 		frmAddSd.getContentPane().add(lblMssv);
 		
 		JLabel lblLop = new JLabel("Lop");
-		lblLop.setBounds(51, 64, 69, 20);
+		lblLop.setBounds(51, 104, 69, 20);
 		frmAddSd.getContentPane().add(lblLop);
 		
 		txtLop = new JTextField();
@@ -136,33 +132,33 @@ public class AddStudentForm {
 			}
 		});
 		txtLop.setColumns(10);
-		txtLop.setBounds(143, 60, 146, 29);
+		txtLop.setBounds(143, 100, 146, 29);
 		frmAddSd.getContentPane().add(txtLop);
 		
 		JLabel lblHoTen = new JLabel("Ho Ten");
-		lblHoTen.setBounds(332, 24, 69, 20);
+		lblHoTen.setBounds(332, 59, 69, 20);
 		frmAddSd.getContentPane().add(lblHoTen);
 		
 		txtHoTen = new JTextField();
 		txtHoTen.setColumns(10);
-		txtHoTen.setBounds(424, 20, 146, 29);
+		txtHoTen.setBounds(427, 55, 146, 29);
 		frmAddSd.getContentPane().add(txtHoTen);
 		
 		lblCmnd = new JLabel("CMND");
-		lblCmnd.setBounds(332, 68, 69, 20);
+		lblCmnd.setBounds(332, 104, 69, 20);
 		frmAddSd.getContentPane().add(lblCmnd);
 		
 		txtCMND = new JTextField();
 		txtCMND.setColumns(10);
-		txtCMND.setBounds(424, 64, 146, 29);
+		txtCMND.setBounds(427, 100, 146, 29);
 		frmAddSd.getContentPane().add(txtCMND);
 		
 		lblGioiTinh = new JLabel("Gioi Tinh");
-		lblGioiTinh.setBounds(51, 104, 69, 20);
+		lblGioiTinh.setBounds(671, 59, 69, 20);
 		frmAddSd.getContentPane().add(lblGioiTinh);
 		
 		JComboBox<String> cbbGioiTinh = new JComboBox<String>();
-		cbbGioiTinh.setBounds(143, 101, 146, 26);
+		cbbGioiTinh.setBounds(799, 56, 146, 26);
 		frmAddSd.getContentPane().add(cbbGioiTinh);
 		cbbGioiTinh.addItem("Nam");
 		cbbGioiTinh.addItem("Nu");
@@ -201,7 +197,7 @@ public class AddStudentForm {
 				
 			}
 		});
-		btnThem.setBounds(143, 145, 115, 29);
+		btnThem.setBounds(350, 158, 156, 43);
 		frmAddSd.getContentPane().add(btnThem);
 		
 		btnMacDinh = new JButton("Cancel");
@@ -209,8 +205,17 @@ public class AddStudentForm {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnMacDinh.setBounds(355, 145, 115, 29);
+		btnMacDinh.setBounds(642, 158, 146, 43);
 		frmAddSd.getContentPane().add(btnMacDinh);
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(15, 217, 1055, 371);
+		frmAddSd.getContentPane().add(scrollPane);
+		
+	
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
 		
 	
 		

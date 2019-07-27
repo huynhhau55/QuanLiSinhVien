@@ -6,6 +6,8 @@ import javax.swing.SpringLayout;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JButton;
 
 public class test {
 
@@ -42,6 +44,10 @@ public class test {
 		frame.setBounds(100, 100, 514, 424);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(0, 0, 492, 368);
+		frame.getContentPane().add(panel);
 		
 	}
 }

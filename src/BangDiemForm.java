@@ -18,6 +18,7 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.JScrollPane;
 
 public class BangDiemForm {
 
@@ -33,6 +34,7 @@ public class BangDiemForm {
 			public void run() {
 				try {
 					BangDiemForm window = new BangDiemForm();
+					window.frmDiem.setLocationRelativeTo(null);;
 					window.frmDiem.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -54,13 +56,13 @@ public class BangDiemForm {
 	private void initialize() {
 		frmDiem = new JFrame();
 		frmDiem.setTitle("Diem");
-		frmDiem.setBounds(100, 100, 783, 569);
+		frmDiem.setBounds(100, 100, 1107, 660);
 		frmDiem.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmDiem.getContentPane().setLayout(null);
 		
-		table = new JTable();
-		table.setBounds(15, 96, 731, 401);
-		frmDiem.getContentPane().add(table);
+		
+		
+		
 		
 		JButton btnImport = new JButton("Import");
 		btnImport.addActionListener(new ActionListener() {
@@ -103,23 +105,31 @@ public class BangDiemForm {
 				}
 			}
 		});
-		btnImport.setBounds(15, 51, 115, 29);
+		btnImport.setBounds(149, 78, 127, 39);
 		frmDiem.getContentPane().add(btnImport);
 		
 		txtImport = new JTextField();
-		txtImport.setBounds(157, 54, 447, 26);
+		txtImport.setBounds(318, 78, 447, 39);
 		frmDiem.getContentPane().add(txtImport);
 		txtImport.setColumns(10);
 		
-		JButton btnCancel = new JButton("Cancel");
-		btnCancel.setBounds(631, 51, 115, 29);
+		JButton btnCancel = new JButton("Back");
+		btnCancel.setBounds(815, 78, 127, 39);
 		frmDiem.getContentPane().add(btnCancel);
 		
 		JLabel lblNewLabel = new JLabel("MOI BAN IMPORT BANG DIEM CUA MON HOC");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblNewLabel.setForeground(Color.RED);
-		lblNewLabel.setBounds(126, 16, 502, 29);
+		lblNewLabel.setBounds(293, 24, 502, 46);
 		frmDiem.getContentPane().add(lblNewLabel);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(15, 133, 1055, 471);
+		frmDiem.getContentPane().add(scrollPane);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		
 	}
 }
