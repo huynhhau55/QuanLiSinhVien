@@ -46,6 +46,10 @@ public class GiaoVuForm {
 	/**
 	 * Launch the application.
 	 */
+	public JFrame getFrmGiaoVu()
+	{
+		return this.frmGiaoVu;
+	}
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -137,9 +141,10 @@ public class GiaoVuForm {
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frmGiaoVu.setVisible(false);
-				LoginForm login = new LoginForm();
-				login.frmLogin.setLocationRelativeTo(null);
-				login.frmLogin.setVisible(true);
+				MainWindow mainWindow = new MainWindow();
+				mainWindow.getFrmMainWindow().setLocationRelativeTo(null);
+				mainWindow.getFrmMainWindow().setVisible(true);
+			
 				
 			}
 		});

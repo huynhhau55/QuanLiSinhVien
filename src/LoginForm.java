@@ -16,16 +16,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
+import java.awt.Font;
+import javax.swing.SwingConstants;
 
 
 public class LoginForm {
 
 	public JFrame frmLogin;
 	private JPasswordField passwordField_password;
-	private ImageIcon img;
 	/**
 	 * Launch the application.
 	 */
+	
+	public JFrame getFrmLogin() {
+		
+		return this.frmLogin;
+		
+	}
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -54,26 +62,28 @@ public class LoginForm {
 	private void initialize() {
 		frmLogin = new JFrame();
 		frmLogin.setTitle("Login");
-		frmLogin.setBounds(100, 100, 679, 515);
+		frmLogin.setBounds(100, 100, 679, 496);
 		frmLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmLogin.getContentPane().setLayout(null);
 		
 		
 		
 		JLabel lblUserName = new JLabel("User name");
-		lblUserName.setBounds(108, 56, 96, 20);
+		lblUserName.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblUserName.setBounds(20, 274, 96, 26);
 		frmLogin.getContentPane().add(lblUserName);
 		
 		JLabel lblPassword = new JLabel("Password");
-		lblPassword.setBounds(108, 122, 69, 20);
+		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblPassword.setBounds(20, 322, 96, 26);
 		frmLogin.getContentPane().add(lblPassword);
 		
 		JTextPane textPane_userName = new JTextPane();
-		textPane_userName.setBounds(219, 45, 248, 37);
+		textPane_userName.setBounds(108, 274, 123, 26);
 		frmLogin.getContentPane().add(textPane_userName);
 		
 		passwordField_password = new JPasswordField();
-		passwordField_password.setBounds(217, 115, 250, 34);
+		passwordField_password.setBounds(108, 322, 128, 26);
 		frmLogin.getContentPane().add(passwordField_password);
 		
 		JButton btnLogin = new JButton("Login");
@@ -96,14 +106,13 @@ public class LoginForm {
 					if (uname.equals(a.user)&& pass.equals(a.pass)) {
 						
 						flag2 = true;
-						GiaoVuForm giaoVu = new GiaoVuForm();
 						frmLogin.setVisible(false);
 						if(uname.equals("giaovu")) {
-							
-						giaoVu.frmGiaoVu.setVisible(true);
-						giaoVu.frmGiaoVu.setLocationRelativeTo(null);
-						giaoVu.frmGiaoVu.setExtendedState(giaoVu.frmGiaoVu.getExtendedState() | JFrame.MAXIMIZED_BOTH);
-						break;
+						MainWindow mainWindow = new MainWindow();
+						mainWindow.getFrmMainWindow().setLocationRelativeTo(null);
+						mainWindow.getFrmMainWindow().setVisible(true);
+						
+						
 						
 						}
 						else {
@@ -122,7 +131,7 @@ public class LoginForm {
 			
 		}
 			});
-		btnLogin.setBounds(129, 209, 115, 37);
+		btnLogin.setBounds(10, 392, 109, 37);
 		frmLogin.getContentPane().add(btnLogin);
 		
 		JButton btnExit = new JButton("Exit");
@@ -131,10 +140,12 @@ public class LoginForm {
 				System.exit(0);
 			}
 		});
-		btnExit.setBounds(320, 209, 115, 37);
+		btnExit.setBounds(137, 392, 102, 37);
 		frmLogin.getContentPane().add(btnExit);
 		
 		JLabel lblChangePassword = new JLabel("Change password");
+		lblChangePassword.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblChangePassword.setHorizontalAlignment(SwingConstants.CENTER);
 		lblChangePassword.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -146,12 +157,12 @@ public class LoginForm {
 						
 			}
 		});
-		lblChangePassword.setBounds(240, 165, 133, 20);
+		lblChangePassword.setBounds(71, 360, 165, 20);
 		frmLogin.getContentPane().add(lblChangePassword);
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\Mr Hau\\File Do An\\Java\\ltudjava-18hcb-18424024-bt1\\src\\images\\bk4.jpg"));
-		lblNewLabel.setBounds(0, 0, 661, 485);
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(".\\images\\bk4.jpg"));
+		lblNewLabel.setBounds(0, 0, 661, 440);
 		frmLogin.getContentPane().add(lblNewLabel);
 	}
 }
