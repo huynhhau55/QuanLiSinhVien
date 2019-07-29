@@ -1,15 +1,10 @@
 import java.awt.EventQueue;
 import javax.swing.JFrame;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
-
-import com.sun.javafx.tk.Toolkit;
-import com.sun.prism.Image;
-
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -137,9 +132,14 @@ public class LoginForm {
 		JButton btnExit = new JButton("Exit");
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.exit(0);
+				
+				int dialogResult = JOptionPane.showConfirmDialog(null, "Do you want exit ?","Confirm",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+				if(dialogResult == JOptionPane.YES_OPTION){
+					System.exit(0);
+				}
 			}
 		});
+		
 		btnExit.setBounds(137, 392, 102, 37);
 		frmLogin.getContentPane().add(btnExit);
 		

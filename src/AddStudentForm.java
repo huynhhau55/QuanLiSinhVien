@@ -1,4 +1,3 @@
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
@@ -7,7 +6,6 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -18,31 +16,43 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import javax.swing.JComboBox;
-import javax.swing.JScrollBar;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class AddStudentForm {
 
 	private JFrame frmAddSd;
 	private JTable table;
 	private JTextField txtMSSV;
-	private JTextField txtLop;
 	private JTextField txtHoTen;
 	private JLabel lblCmnd;
 	private JTextField txtCMND;
 	private JLabel lblGioiTinh;
 	private JButton btnThem;
-	private JButton btnMacDinh;
-	private JScrollBar scrollBar;
+	private JButton btnQuayLai;
 	private JScrollPane scrollPane;
+	private JComboBox<String> cbbLop;
+	
+	
 	
 	
 
 	/**
 	 * Launch the application.
 	 */
+	
+	public JComboBox<String> getCbbLop(){
+	
+		return this.cbbLop;
+	}
+	
+	public JFrame getFrmAddSd() {
+		
+		return this.frmAddSd;
+	}
+	
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -71,7 +81,7 @@ public class AddStudentForm {
 		
 		try {
 			
-			String filePath = txtLop.getText() + ".csv";
+			String filePath = cbbLop.getSelectedItem() + ".csv";
 			BufferedReader br = new BufferedReader(new FileReader(new File(filePath)));
 			List<String[]> elements = new ArrayList<String[]>();
 			String line = null;
@@ -112,69 +122,58 @@ public class AddStudentForm {
 		
 		
 		txtMSSV = new JTextField();
-		txtMSSV.setBounds(143, 55, 146, 29);
+		txtMSSV.setBounds(208, 104, 146, 29);
 		frmAddSd.getContentPane().add(txtMSSV);
 		txtMSSV.setColumns(10);
 		
 		JLabel lblMssv = new JLabel("MSSV");
-		lblMssv.setBounds(59, 59, 69, 20);
+		lblMssv.setBounds(131, 106, 69, 25);
 		frmAddSd.getContentPane().add(lblMssv);
 		
-		JLabel lblLop = new JLabel("Lop");
-		lblLop.setBounds(51, 104, 69, 20);
+		JLabel lblLop = new JLabel("L\u1EDBp");
+		lblLop.setBounds(131, 63, 69, 25);
 		frmAddSd.getContentPane().add(lblLop);
 		
-		txtLop = new JTextField();
-		txtLop.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				loadSinhVien();
-			}
-		});
-		txtLop.setColumns(10);
-		txtLop.setBounds(143, 100, 146, 29);
-		frmAddSd.getContentPane().add(txtLop);
-		
-		JLabel lblHoTen = new JLabel("Ho Ten");
-		lblHoTen.setBounds(332, 59, 69, 20);
+		JLabel lblHoTen = new JLabel("H\u1ECD t\u00EAn");
+		lblHoTen.setBounds(406, 63, 69, 25);
 		frmAddSd.getContentPane().add(lblHoTen);
 		
 		txtHoTen = new JTextField();
 		txtHoTen.setColumns(10);
-		txtHoTen.setBounds(427, 55, 146, 29);
+		txtHoTen.setBounds(508, 61, 146, 29);
 		frmAddSd.getContentPane().add(txtHoTen);
 		
 		lblCmnd = new JLabel("CMND");
-		lblCmnd.setBounds(332, 104, 69, 20);
+		lblCmnd.setBounds(406, 106, 69, 25);
 		frmAddSd.getContentPane().add(lblCmnd);
 		
 		txtCMND = new JTextField();
 		txtCMND.setColumns(10);
-		txtCMND.setBounds(427, 100, 146, 29);
+		txtCMND.setBounds(508, 104, 146, 29);
 		frmAddSd.getContentPane().add(txtCMND);
 		
-		lblGioiTinh = new JLabel("Gioi Tinh");
-		lblGioiTinh.setBounds(671, 59, 69, 20);
+		lblGioiTinh = new JLabel("Gi\u1EDBi t\u00EDnh");
+		lblGioiTinh.setBounds(694, 59, 69, 29);
 		frmAddSd.getContentPane().add(lblGioiTinh);
 		
 		JComboBox<String> cbbGioiTinh = new JComboBox<String>();
-		cbbGioiTinh.setBounds(799, 56, 146, 26);
+		cbbGioiTinh.setBounds(799, 60, 146, 26);
 		frmAddSd.getContentPane().add(cbbGioiTinh);
 		cbbGioiTinh.addItem("Nam");
 		cbbGioiTinh.addItem("Nu");
 		
-		btnThem = new JButton("Add");
+		btnThem = new JButton("Th\u00EAm");
 		btnThem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				try {
 					
-					String filePath = txtLop.getText() + ".csv";
+					String filePath = cbbLop.getSelectedItem().toString() + ".csv";
 					List<Student> Students = Student.readStudents(filePath);
 					String stt = Integer.toString(Students.size());
 					String gioiTinh = String.valueOf(cbbGioiTinh.getSelectedItem());
 					Student sd = new Student(stt, txtMSSV.getText(), txtHoTen.getText(), 
-										gioiTinh,txtCMND.getText() , txtLop.getText());
+										gioiTinh,txtCMND.getText() , cbbLop.getSelectedItem().toString());
 					FileWriter fw = new FileWriter(filePath,true);
 					BufferedWriter bw = new BufferedWriter(fw);
 					PrintWriter pw = new PrintWriter(bw);
@@ -185,7 +184,6 @@ public class AddStudentForm {
 					loadSinhVien();
 					txtCMND.setText("");
 					txtHoTen.setText("");
-					txtLop.setText("");
 					txtMSSV.setText("");
 					
 					
@@ -197,16 +195,16 @@ public class AddStudentForm {
 				
 			}
 		});
-		btnThem.setBounds(350, 158, 156, 43);
+		btnThem.setBounds(131, 158, 156, 43);
 		frmAddSd.getContentPane().add(btnThem);
 		
-		btnMacDinh = new JButton("Cancel");
-		btnMacDinh.addActionListener(new ActionListener() {
+		btnQuayLai = new JButton("Quay l\u1EA1i");
+		btnQuayLai.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnMacDinh.setBounds(642, 158, 146, 43);
-		frmAddSd.getContentPane().add(btnMacDinh);
+		btnQuayLai.setBounds(799, 158, 146, 43);
+		frmAddSd.getContentPane().add(btnQuayLai);
 		
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(15, 217, 1055, 371);
@@ -215,8 +213,44 @@ public class AddStudentForm {
 	
 		
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+				DefaultTableModel dfModel = (DefaultTableModel)table.getModel();
+				int selectedRowIndex = table.getSelectedRow();
+				txtMSSV.setText(dfModel.getValueAt(selectedRowIndex, 1).toString());
+				txtHoTen.setText(dfModel.getValueAt(selectedRowIndex, 2).toString());
+				cbbGioiTinh.setSelectedItem(dfModel.getValueAt(selectedRowIndex, 3).toString());
+				txtCMND.setText(dfModel.getValueAt(selectedRowIndex, 4).toString());
+				cbbLop.setSelectedItem(dfModel.getValueAt(selectedRowIndex, 5).toString());
+				
+			}
+		});
 		scrollPane.setViewportView(table);
 		
+		JButton btnXoa = new JButton("X\u00F3a");
+		btnXoa.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnXoa.setBounds(365, 158, 151, 43);
+		frmAddSd.getContentPane().add(btnXoa);
+		
+		JButton btnCapNhat = new JButton("C\u1EADp nh\u1EADt");
+		btnCapNhat.setBounds(584, 158, 156, 43);
+		frmAddSd.getContentPane().add(btnCapNhat);
+		
+		cbbLop = new JComboBox<String>();
+		cbbLop.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				loadSinhVien();
+				
+			}
+		});
+		cbbLop.setBounds(208, 61, 146, 28);
+		frmAddSd.getContentPane().add(cbbLop);
 	
 		
 	}

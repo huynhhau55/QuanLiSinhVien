@@ -1,27 +1,14 @@
 import java.awt.EventQueue;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import javax.swing.JFrame;
-import java.awt.Button;
-import java.awt.BorderLayout;
-import javax.swing.JMenuBar;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JPopupMenu;
-import java.awt.Component;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.JToggleButton;
-import javax.swing.JMenu;
-import javax.swing.JToolBar;
 import javax.swing.table.DefaultTableModel;
-
-import com.sun.javafx.collections.SetListenerHelper;
-import com.sun.javafx.geom.Rectangle;
-
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -31,8 +18,6 @@ import javax.swing.SwingConstants;
 import java.awt.Color;
 import java.awt.Font;
 
-
-
 public class GiaoVuForm {
 
 	public JFrame frmGiaoVu;
@@ -41,6 +26,8 @@ public class GiaoVuForm {
 	private JButton btnBack;
 	private JLabel lblImportVaoDanh;
 	private JScrollPane scrollPane;
+	private JButton btnQLSV;
+	private String fileWriteClass = "C:\\Users\\Mr Hau\\File Do An\\Java\\ltudjava-18hcb-18424024-bt1\\Data\\Lop\\CacLopHienCo.csv";
 	
 
 	/**
@@ -50,6 +37,23 @@ public class GiaoVuForm {
 	{
 		return this.frmGiaoVu;
 	}
+	
+	public void writeFile(String input, String contain) {
+		
+		try (
+			FileWriter fw = new FileWriter(input,true);
+			BufferedWriter bw = new BufferedWriter(fw);
+			PrintWriter pw = new PrintWriter(bw);
+			) {
+				pw.println(contain);
+				pw.close();
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -90,6 +94,8 @@ public class GiaoVuForm {
 					File f = chooser.getSelectedFile() ;
 					String fileName = f.getAbsolutePath();
 					txtDuongDan.setText(fileName);
+					String getClass1 = txtDuongDan.getText();
+					String getClass2 = getClass1.substring(getClass1.lastIndexOf("\\") +1 ).substring(0,5);
 					BufferedReader br  = new BufferedReader(new FileReader(new File(fileName)));
 					List<String[]> elements = new ArrayList<String[]>();
 					String line = null;
@@ -100,7 +106,6 @@ public class GiaoVuForm {
 						
 					}
 					br.close();
-					
 					String[] columsName = new String[] {
 							
 							"STT", "MSSV", "Ho Ten", "Gioi Tinh", "CMND", "Lop"
@@ -117,23 +122,17 @@ public class GiaoVuForm {
 						
 					}
 					table.setModel(new DefaultTableModel(content,columsName));
-					
-					
-					
-				} catch (Exception e) {
-					
+					writeFile(fileWriteClass, getClass2);
+				} catch (Exception e2) {
+					e2.printStackTrace();
 				}
-				
-				
-				
-				
 			}
 		});
-		btnImport.setBounds(149, 78, 127, 39);
+		btnImport.setBounds(74, 78, 127, 39);
 		frmGiaoVu.getContentPane().add(btnImport);
 		
 		txtDuongDan = new JTextField();
-		txtDuongDan.setBounds(318, 78, 447, 39);
+		txtDuongDan.setBounds(230, 78, 447, 39);
 		frmGiaoVu.getContentPane().add(txtDuongDan);
 		txtDuongDan.setColumns(10);
 		
@@ -144,14 +143,12 @@ public class GiaoVuForm {
 				MainWindow mainWindow = new MainWindow();
 				mainWindow.getFrmMainWindow().setLocationRelativeTo(null);
 				mainWindow.getFrmMainWindow().setVisible(true);
-			
-				
 			}
 		});
-		btnBack.setBounds(815, 78, 127, 39);
+		btnBack.setBounds(850, 78, 127, 39);
 		frmGiaoVu.getContentPane().add(btnBack);
 		
-		lblImportVaoDanh = new JLabel("IMPORT VAO DANH SACH LOP");
+		lblImportVaoDanh = new JLabel("IMPORT V\u00C0O DANH S\u00C1CH L\u1EDAP");
 		lblImportVaoDanh.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblImportVaoDanh.setForeground(Color.RED);
 		lblImportVaoDanh.setHorizontalAlignment(SwingConstants.CENTER);
@@ -167,6 +164,34 @@ public class GiaoVuForm {
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		
+		btnQLSV = new JButton("Qu\u1EA3n l\u00ED SV");
+		btnQLSV.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					frmGiaoVu.setVisible(false);
+					AddStudentForm studentForm = new AddStudentForm();
+					studentForm.getFrmAddSd().setLocationRelativeTo(null);
+					studentForm.getFrmAddSd().setVisible(true);
+					Path pathToFile = Paths.get(fileWriteClass);
+					BufferedReader br = Files.newBufferedReader(pathToFile);
+					String line = br.readLine();	
+					while(line != null) {
+						studentForm.getCbbLop().addItem(line);
+						line = br.readLine();
+					}
+					br.close();
+				}
+				catch(Exception e3)
+				{
+					e3.printStackTrace();
+				}
+				
+				
+				
+			}
+		});
+		btnQLSV.setBounds(703, 78, 127, 39);
+		frmGiaoVu.getContentPane().add(btnQLSV);
 		
 		
 		

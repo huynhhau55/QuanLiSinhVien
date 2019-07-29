@@ -1,5 +1,4 @@
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.JButton;
@@ -8,7 +7,6 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
-
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
@@ -29,6 +27,12 @@ public class BangDiemForm {
 	/**
 	 * Launch the application.
 	 */
+	public JFrame getFrmDiem() {
+		
+		return this.frmDiem;
+		
+	}
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -114,10 +118,20 @@ public class BangDiemForm {
 		txtImport.setColumns(10);
 		
 		JButton btnCancel = new JButton("Back");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				frmDiem.setVisible(false);
+				MainWindow mainWindow = new MainWindow();
+				mainWindow.getFrmMainWindow().setLocationRelativeTo(null);
+				mainWindow.getFrmMainWindow().setVisible(true);
+				
+			}
+		});
 		btnCancel.setBounds(815, 78, 127, 39);
 		frmDiem.getContentPane().add(btnCancel);
 		
-		JLabel lblNewLabel = new JLabel("MOI BAN IMPORT BANG DIEM CUA MON HOC");
+		JLabel lblNewLabel = new JLabel("IMPORT V\u00C0O B\u1EA2NG \u0110I\u1EC2M C\u1EE6A M\u00D4N H\u1ECCC");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblNewLabel.setForeground(Color.RED);

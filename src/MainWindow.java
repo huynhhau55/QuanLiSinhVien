@@ -55,8 +55,8 @@ public class MainWindow {
 		frmMainWindow.getContentPane().setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel();
-		//lblNewLabel.setIcon(new ImageIcon(".\\images\\bk3.jpg"));
-		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\Mr Hau\\File Do An\\Java\\ltudjava-18hcb-18424024-bt1\\images\\bk3.jpg"));
+		lblNewLabel.setIcon(new ImageIcon(".\\images\\bk3.jpg"));
+		//lblNewLabel.setIcon(new ImageIcon("C:\\Users\\Mr Hau\\File Do An\\Java\\ltudjava-18hcb-18424024-bt1\\images\\bk3.jpg"));
 		lblNewLabel.setBounds(0, 29, 769, 449);
 		frmMainWindow.getContentPane().add(lblNewLabel);
 		
@@ -81,6 +81,12 @@ public class MainWindow {
 		JMenuItem courseList = new JMenuItem("Import thời khóa biểu");
 		courseList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				frmMainWindow.setVisible(false);
+				ThoiKhoaBieuForm thoiKhoaBieu = new ThoiKhoaBieuForm();
+				thoiKhoaBieu.getFramThoiKhoaBieu().setLocationRelativeTo(null);
+				thoiKhoaBieu.getFramThoiKhoaBieu().setVisible(true);
+				
 			}
 		});
 		_import.add(courseList);
@@ -88,6 +94,13 @@ public class MainWindow {
 		JMenuItem pointTable = new JMenuItem("Import bảng điểm");
 		pointTable.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				frmMainWindow.setVisible(false);
+				BangDiemForm bangDiem = new BangDiemForm();
+				bangDiem.getFrmDiem().setLocationRelativeTo(null);
+				bangDiem.getFrmDiem().setVisible(true);
+						
+				
 			}
 		});
 		_import.add(pointTable);

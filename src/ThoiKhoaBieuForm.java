@@ -1,11 +1,8 @@
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
-
+import java.awt.Font;
 import javax.swing.JFrame;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JButton;
@@ -13,12 +10,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
-
-import com.sun.xml.internal.ws.api.server.Container;
-
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -35,11 +28,17 @@ public class ThoiKhoaBieuForm {
 	/**
 	 * Launch the application.
 	 */
+	public JFrame getFramThoiKhoaBieu() {
+		
+		return this.frmThoiKhoaBieu;
+	}
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					ThoiKhoaBieuForm window = new ThoiKhoaBieuForm();
+					window.frmThoiKhoaBieu.setLocationRelativeTo(null);
 					window.frmThoiKhoaBieu.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -61,13 +60,9 @@ public class ThoiKhoaBieuForm {
 	private void initialize() {
 		frmThoiKhoaBieu = new JFrame();
 		frmThoiKhoaBieu.setTitle("Thoi Khoa Bieu");
-		frmThoiKhoaBieu.setBounds(100, 100, 805, 584);
+		frmThoiKhoaBieu.setBounds(100, 100, 1107, 660);
 		frmThoiKhoaBieu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmThoiKhoaBieu.getContentPane().setLayout(null);
-		
-		table = new JTable();
-		table.setBounds(31, 111, 727, 377);
-		frmThoiKhoaBieu.getContentPane().add(table);
 		
 		JButton btnImport = new JButton("Import");
 		btnImport.addActionListener(new ActionListener() {
@@ -103,20 +98,49 @@ public class ThoiKhoaBieuForm {
 					}
 					table.setModel(new DefaultTableModel(content,columsName));
 				} catch (Exception e2) {
-					JOptionPane.showMessageDialog(frmThoiKhoaBieu, "Fail");
+					e2.printStackTrace();
 				}
 				
 			}
 		});
-		btnImport.setBounds(31, 53, 115, 29);
+		btnImport.setBounds(74, 78, 127, 39);
 		frmThoiKhoaBieu.getContentPane().add(btnImport);
 		txtDuongDan = new JTextField();
-		txtDuongDan.setBounds(189, 54, 415, 26);
+		txtDuongDan.setBounds(230, 78, 447, 39);
 		frmThoiKhoaBieu.getContentPane().add(txtDuongDan);
 		txtDuongDan.setColumns(10);
 		
 		btnBack = new JButton("Back");
-		btnBack.setBounds(643, 53, 115, 29);
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				frmThoiKhoaBieu.setVisible(false);
+				MainWindow mainWindow = new MainWindow();
+				mainWindow.getFrmMainWindow().setLocationRelativeTo(null);
+				mainWindow.getFrmMainWindow().setVisible(true);
+				
+			}
+		});
+		btnBack.setBounds(850, 78, 127, 39);
 		frmThoiKhoaBieu.getContentPane().add(btnBack);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(15, 133, 1055, 471);
+		frmThoiKhoaBieu.getContentPane().add(scrollPane);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		
+		JLabel lblImportVoThi = new JLabel("IMPORT V\u00C0O TH\u1EDCI KH\u00D3A BI\u1EC2U");		
+		lblImportVoThi.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblImportVoThi.setForeground(Color.RED);
+		lblImportVoThi.setHorizontalAlignment(SwingConstants.CENTER);
+		lblImportVoThi.setBounds(320, 24, 447, 46);
+		frmThoiKhoaBieu.getContentPane().add(lblImportVoThi);
+		
+		JButton button = new JButton("New button");
+		button.setBounds(703, 78, 127, 39);
+		frmThoiKhoaBieu.getContentPane().add(button);
+		
 	}
 }
