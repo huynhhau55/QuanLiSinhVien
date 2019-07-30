@@ -1,4 +1,7 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -7,16 +10,51 @@ import java.util.List;
 
 public class Student {
 	
-	String sttStudent;
-	String studentID;
-	String nameStudent;
-	String genderStudent;
-	String identityCard;
-	String classRoom;
+	private String sttStudent;
+	private String studentID;
+	private String nameStudent;
+	private String genderStudent;
+	private String identityCard;
+	private String classRoom;
+	
+	public String getsttStudent() {
+		
+		return this.sttStudent;
+	}
+	
+	public String getstudentID() {
+		
+		return this.studentID;
+	}
+	
+	public String getnameStudent() {
+		
+		return this.nameStudent;
+		
+	}
+	
+	public String getgenderStudent() {
+			
+			return this.genderStudent;
+			
+	}
+	public String getidentityCard() {
+		
+		return this.identityCard;
+		
+	}
+	public String getclassRoom() {
+		
+		return this.classRoom;
+		
+	}
+	
+	
 	@Override
     public String toString() {
         return sttStudent +  studentID + nameStudent + genderStudent + identityCard + classRoom ;
  }
+	
 	public Student(String stt, String id, String name,String gender,String idCard,String classR)
 	{
 		this.sttStudent = stt;
@@ -35,10 +73,11 @@ public class Student {
 			String line = br.readLine();
 			while(line != null) {
 				
-				String[] attributes = line.split(";");
-				Student student = createStudent(attributes);
-				Students.add(student);
-				line = br.readLine();
+					String[] attributes = line.split(";");
+					Student student = createStudent(attributes);
+					Students.add(student);
+					line = br.readLine();
+				
 				
 			}
 			
@@ -60,6 +99,26 @@ public class Student {
 			return new Student(stt,id,name,gender,idCard,classR);
 		}
 		
+		public static void writeFile(String filePath, List<Student> Students) {
+			
+			try(FileWriter fw = new FileWriter(filePath,true);
+					BufferedWriter bw = new BufferedWriter(fw);
+					PrintWriter pw = new PrintWriter(bw)){
+				
+				String stt = Integer.toString(Students.size());
+				
+				for (Student sd : Students) {
+					
+					pw.println(stt + ";" + sd.getstudentID() + ";" + sd.getnameStudent() + ";" + 
+							   sd.getgenderStudent() + ";" + sd.getidentityCard() + ";" + sd.getclassRoom() );
+				}
+				pw.close();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			
+		}
 	
 
 }

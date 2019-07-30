@@ -109,15 +109,15 @@ public class BangDiemForm {
 				}
 			}
 		});
-		btnImport.setBounds(149, 78, 127, 39);
+		btnImport.setBounds(68, 78, 127, 39);
 		frmDiem.getContentPane().add(btnImport);
 		
 		txtImport = new JTextField();
-		txtImport.setBounds(318, 78, 447, 39);
+		txtImport.setBounds(226, 78, 470, 39);
 		frmDiem.getContentPane().add(txtImport);
 		txtImport.setColumns(10);
 		
-		JButton btnCancel = new JButton("Back");
+		JButton btnCancel = new JButton("Tr\u1EDF l\u1EA1i");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -128,14 +128,14 @@ public class BangDiemForm {
 				
 			}
 		});
-		btnCancel.setBounds(815, 78, 127, 39);
+		btnCancel.setBounds(884, 78, 127, 39);
 		frmDiem.getContentPane().add(btnCancel);
 		
 		JLabel lblNewLabel = new JLabel("IMPORT V\u00C0O B\u1EA2NG \u0110I\u1EC2M C\u1EE6A M\u00D4N H\u1ECCC");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblNewLabel.setForeground(Color.RED);
-		lblNewLabel.setBounds(293, 24, 502, 46);
+		lblNewLabel.setBounds(68, 24, 943, 46);
 		frmDiem.getContentPane().add(lblNewLabel);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -144,6 +144,20 @@ public class BangDiemForm {
 		
 		table = new JTable();
 		scrollPane.setViewportView(table);
+		
+		JButton btnQLBD = new JButton("QL B\u1EA3ng \u0111i\u1EC3m");
+		btnQLBD.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				frmDiem.setVisible(false);
+				QL_BangDiem bangDiem = new QL_BangDiem();
+				bangDiem.getfrmQLBD().setLocationRelativeTo(null);
+				bangDiem.getfrmQLBD().setVisible(true);
+				
+			}
+		});
+		btnQLBD.setBounds(725, 78, 144, 39);
+		frmDiem.getContentPane().add(btnQLBD);
 		
 	}
 }

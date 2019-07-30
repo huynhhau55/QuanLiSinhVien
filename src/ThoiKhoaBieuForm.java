@@ -138,9 +138,19 @@ public class ThoiKhoaBieuForm {
 		lblImportVoThi.setBounds(320, 24, 447, 46);
 		frmThoiKhoaBieu.getContentPane().add(lblImportVoThi);
 		
-		JButton button = new JButton("New button");
-		button.setBounds(703, 78, 127, 39);
-		frmThoiKhoaBieu.getContentPane().add(button);
+		JButton btnQlTkb = new JButton("QL TKB");
+		btnQlTkb.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				frmThoiKhoaBieu.setVisible(false);
+				QL_TKB tkb = new QL_TKB();
+				tkb.getFrmQLTKB().setLocationRelativeTo(null);
+				tkb.getFrmQLTKB().setVisible(true);
+				
+			}
+		});
+		btnQlTkb.setBounds(703, 78, 127, 39);
+		frmThoiKhoaBieu.getContentPane().add(btnQlTkb);
 		
 	}
 }

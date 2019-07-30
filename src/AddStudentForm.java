@@ -19,6 +19,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.SwingConstants;
 
 public class AddStudentForm {
 
@@ -33,7 +36,7 @@ public class AddStudentForm {
 	private JButton btnQuayLai;
 	private JScrollPane scrollPane;
 	private JComboBox<String> cbbLop;
-	
+	private JLabel lblQunLSinh;
 	
 	
 	
@@ -84,12 +87,17 @@ public class AddStudentForm {
 			String filePath = cbbLop.getSelectedItem() + ".csv";
 			BufferedReader br = new BufferedReader(new FileReader(new File(filePath)));
 			List<String[]> elements = new ArrayList<String[]>();
-			String line = null;
+			String line = null; boolean flag = false;
 			while((line = br.readLine()) != null ) {
-				
-				String[] spiltted = line.split(";");
-				elements.add(spiltted);
-			
+				if(flag == false) {
+					flag = true;
+					continue;
+				}
+				else {
+					
+					String[] spiltted = line.split(";");
+					elements.add(spiltted);
+				}
 			}
 			br.close();
 			String[] columsName = new String[] {
@@ -113,7 +121,7 @@ public class AddStudentForm {
 	}
 	private void initialize() {
 		frmAddSd = new JFrame();
-		frmAddSd.setTitle("Add Student");
+		frmAddSd.setTitle("Qu\u1EA3n l\u00FD sinh vi\u00EAn");
 		frmAddSd.setBounds(100, 100, 1107, 660);
 		frmAddSd.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmAddSd.getContentPane().setLayout(null);
@@ -177,8 +185,8 @@ public class AddStudentForm {
 					FileWriter fw = new FileWriter(filePath,true);
 					BufferedWriter bw = new BufferedWriter(fw);
 					PrintWriter pw = new PrintWriter(bw);
-					pw.println(sd.sttStudent + ";" + sd.studentID + ";" + sd.nameStudent + ";" + 
-							   sd.genderStudent + ";" + sd.identityCard + ";" + sd.classRoom );
+					pw.println(sd.getsttStudent() + ";" + sd.getstudentID() + ";" + sd.getnameStudent() + ";" + 
+							   sd.getgenderStudent() + ";" + sd.getidentityCard() + ";" + sd.getclassRoom() );
 					
 					pw.close();
 					loadSinhVien();
@@ -201,6 +209,12 @@ public class AddStudentForm {
 		btnQuayLai = new JButton("Quay l\u1EA1i");
 		btnQuayLai.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				frmAddSd.setVisible(false);
+				MainWindow mainWindow = new MainWindow();
+				mainWindow.getFrmMainWindow().setLocationRelativeTo(null);
+				mainWindow.getFrmMainWindow().setVisible(true);
+				
 			}
 		});
 		btnQuayLai.setBounds(799, 158, 146, 43);
@@ -232,6 +246,47 @@ public class AddStudentForm {
 		JButton btnXoa = new JButton("X\u00F3a");
 		btnXoa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				try {
+					String filePath = cbbLop.getSelectedItem() + ".csv";
+					List<Student> Students = Student.readStudents(filePath);
+					for (Student sd : Students) {
+						
+						if( txtMSSV.getText() == sd.getstudentID() ) {
+							
+							Students.remove(sd);
+							break;
+							
+						}
+						
+					}
+					try(FileWriter fw = new FileWriter(filePath,true);
+							BufferedWriter bw = new BufferedWriter(fw);
+							PrintWriter pw = new PrintWriter(bw)){
+
+						int stt = 1;
+						for (Student sd : Students) {
+							
+							pw.println((Integer.toString(stt++) + ";" + sd.getstudentID() + ";" + sd.getnameStudent() + ";" + 
+									   sd.getgenderStudent() + ";" + sd.getidentityCard() + ";" + sd.getclassRoom() ));
+							
+						}
+						pw.close();
+						loadSinhVien();
+						txtCMND.setText("");
+						txtHoTen.setText("");
+						txtMSSV.setText("");
+					}catch(Exception e) {
+						e.printStackTrace();
+					}
+					
+					
+				}
+				catch(Exception e) {
+					e.printStackTrace();
+				}
+				
+				
 			}
 		});
 		btnXoa.setBounds(365, 158, 151, 43);
@@ -251,6 +306,13 @@ public class AddStudentForm {
 		});
 		cbbLop.setBounds(208, 61, 146, 28);
 		frmAddSd.getContentPane().add(cbbLop);
+		
+		lblQunLSinh = new JLabel("QU\u1EA2N L\u00DD SINH VI\u00CAN");
+		lblQunLSinh.setHorizontalAlignment(SwingConstants.CENTER);
+		lblQunLSinh.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblQunLSinh.setForeground(Color.RED);
+		lblQunLSinh.setBounds(337, 0, 376, 59);
+		frmAddSd.getContentPane().add(lblQunLSinh);
 	
 		
 	}
