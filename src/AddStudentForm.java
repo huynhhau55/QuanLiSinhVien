@@ -1,6 +1,9 @@
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
+
+import com.sun.xml.internal.bind.api.impl.NameConverter.Standard;
+
 import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -10,9 +13,14 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
@@ -80,6 +88,40 @@ public class AddStudentForm {
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	private void writeSinhVien(String filePath, List<Student> Students) {
+		
+		try(PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(filePath),
+				StandardCharsets.UTF_8),false)) {
+			int stt = 1;
+			boolean flag = false;
+			for (Student sd : Students) {
+
+				if(flag == false) {
+
+					flag = true;
+					pw.println(("STT" + ";" + sd.getstudentID() + ";" + sd.getnameStudent() + ";" + 
+							sd.getgenderStudent() + ";" + sd.getidentityCard() + ";" + sd.getclassRoom() ));
+
+
+				}
+				else {
+					pw.println((Integer.toString(stt++) + ";" + sd.getstudentID() + ";" + sd.getnameStudent() + ";" + 
+							sd.getgenderStudent() + ";" + sd.getidentityCard() + ";" + sd.getclassRoom() ));
+				}
+
+
+			}
+			pw.close();
+			txtCMND.setText("");
+			txtHoTen.setText("");
+			txtMSSV.setText("");
+		
+		}catch(Exception e) {
+			
+			e.printStackTrace();
+			
+		}
+	}
 	private void loadSinhVien() {
 		
 		try {
@@ -168,7 +210,7 @@ public class AddStudentForm {
 		cbbGioiTinh.setBounds(799, 60, 146, 26);
 		frmAddSd.getContentPane().add(cbbGioiTinh);
 		cbbGioiTinh.addItem("Nam");
-		cbbGioiTinh.addItem("Nu");
+		cbbGioiTinh.addItem("Nữ");
 		
 		btnThem = new JButton("Th\u00EAm");
 		btnThem.addActionListener(new ActionListener() {
@@ -249,10 +291,12 @@ public class AddStudentForm {
 				
 				try {
 					String filePath = cbbLop.getSelectedItem() + ".csv";
+					//String filePath = "18HCB.csv";
 					List<Student> Students = Student.readStudents(filePath);
 					for (Student sd : Students) {
 						
-						if( txtMSSV.getText() == sd.getstudentID() ) {
+						if( txtMSSV.getText().equalsIgnoreCase(sd.getstudentID()) ) 
+							{
 							
 							Students.remove(sd);
 							break;
@@ -260,15 +304,28 @@ public class AddStudentForm {
 						}
 						
 					}
-					try(FileWriter fw = new FileWriter(filePath,true);
+					/*try(FileWriter fw = new FileWriter(filePath,false);
 							BufferedWriter bw = new BufferedWriter(fw);
-							PrintWriter pw = new PrintWriter(bw)){
-
+							PrintWriter pw = new PrintWriter(bw)){*/
+					try(PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(filePath),
+																			StandardCharsets.UTF_8),false)) {
 						int stt = 1;
+						boolean flag = false;
 						for (Student sd : Students) {
 							
-							pw.println((Integer.toString(stt++) + ";" + sd.getstudentID() + ";" + sd.getnameStudent() + ";" + 
-									   sd.getgenderStudent() + ";" + sd.getidentityCard() + ";" + sd.getclassRoom() ));
+							if(flag == false) {
+								
+								flag = true;
+								pw.println(("STT" + ";" + sd.getstudentID() + ";" + sd.getnameStudent() + ";" + 
+										   sd.getgenderStudent() + ";" + sd.getidentityCard() + ";" + sd.getclassRoom() ));
+							
+								
+							}
+							else {
+								pw.println((Integer.toString(stt++) + ";" + sd.getstudentID() + ";" + sd.getnameStudent() + ";" + 
+										   sd.getgenderStudent() + ";" + sd.getidentityCard() + ";" + sd.getclassRoom() ));
+							}
+							
 							
 						}
 						pw.close();
@@ -293,6 +350,25 @@ public class AddStudentForm {
 		frmAddSd.getContentPane().add(btnXoa);
 		
 		JButton btnCapNhat = new JButton("C\u1EADp nh\u1EADt");
+		btnCapNhat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				String filePath = cbbLop.getSelectedItem() + ".csv";
+				List<Student> Students = Student.readStudents(filePath);
+				for (Student s : Students) {
+					
+					if(txtMSSV.getText().equalsIgnoreCase(s.getstudentID())) {
+						s.setnameStudent(txtHoTen.getText());
+						s.setidentityCard(txtCMND.getText());
+						s.setgenderStudent(cbbGioiTinh.getSelectedItem().toString());
+						break;
+					}
+				}
+				writeSinhVien(filePath, Students);
+				loadSinhVien();
+				
+			}
+		});
 		btnCapNhat.setBounds(584, 158, 156, 43);
 		frmAddSd.getContentPane().add(btnCapNhat);
 		

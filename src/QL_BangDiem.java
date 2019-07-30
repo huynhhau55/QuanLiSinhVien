@@ -141,7 +141,7 @@ public class QL_BangDiem {
 		btnCapNhat.setBounds(584, 158, 156, 43);
 		frmQLBD.getContentPane().add(btnCapNhat);
 		
-		JButton btnQuayLai = new JButton("QuayLai");
+		JButton btnQuayLai = new JButton("Quay l\u1EA1i");
 		btnQuayLai.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				

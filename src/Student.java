@@ -1,6 +1,9 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,9 +25,19 @@ public class Student {
 		return this.sttStudent;
 	}
 	
+	public void setsttStudent(String a) {
+		
+		sttStudent = a;
+	}
+	
 	public String getstudentID() {
 		
 		return this.studentID;
+	}
+	
+	public void setstudentID(String a) {
+		
+		studentID = a;
 	}
 	
 	public String getnameStudent() {
@@ -33,21 +46,44 @@ public class Student {
 		
 	}
 	
+	public void setnameStudent(String a) {
+		
+		nameStudent = a;
+	}
+	
 	public String getgenderStudent() {
 			
 			return this.genderStudent;
 			
 	}
+	
+	public void setgenderStudent(String a) {
+		
+		genderStudent = a;
+	}
+	
 	public String getidentityCard() {
 		
 		return this.identityCard;
 		
 	}
+	
+	public void setidentityCard(String a) {
+		
+		identityCard = a;
+	}
+	
 	public String getclassRoom() {
 		
 		return this.classRoom;
 		
 	}
+	
+	public void setclassRoom(String a) {
+		
+		classRoom = a;
+	}
+	
 	
 	
 	@Override
@@ -68,8 +104,9 @@ public class Student {
 	public static List<Student> readStudents(String fileName) {
 		
 		List<Student> Students = new ArrayList<Student>();
-		Path pathToFile = Paths.get(fileName);
-		try (BufferedReader br = Files.newBufferedReader(pathToFile)) {
+		//Path pathToFile = Paths.get(fileName);
+		//try (BufferedReader br = Files.newBufferedReader(pathToFile)) {
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileName),"UTF-8"))) {
 			String line = br.readLine();
 			while(line != null) {
 				
