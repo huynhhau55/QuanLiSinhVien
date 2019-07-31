@@ -10,7 +10,14 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
@@ -30,6 +37,36 @@ public class BangDiemForm {
 	public JFrame getFrmDiem() {
 		
 		return this.frmDiem;
+		
+	}
+	public static String readFileForCombo(String filePath,String maMH) {
+		
+		List<ThoiKhoaBieuClass> tKBs = ThoiKhoaBieuClass.readTKB(filePath);
+		for(ThoiKhoaBieuClass t : tKBs) {
+			
+			if(t.getmaMH().equalsIgnoreCase(maMH)) {
+				
+				return t.gettenMH();
+				
+			}	
+		}
+		return "";
+	}
+	
+	public static void writeFileForCombo(String filePath, String content) {
+		
+		try(PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(filePath,true),StandardCharsets.UTF_8))) {
+			
+			pw.println(content);
+			pw.close();
+			
+		}
+		
+		catch(Exception e) {
+			
+			e.printStackTrace();
+			
+		}
 		
 	}
 	
@@ -65,9 +102,6 @@ public class BangDiemForm {
 		frmDiem.getContentPane().setLayout(null);
 		
 		
-		
-		
-		
 		JButton btnImport = new JButton("Import");
 		btnImport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -79,21 +113,38 @@ public class BangDiemForm {
 					File f =choser.getSelectedFile();
 					String filePath = f.getAbsolutePath();
 					txtImport.setText(filePath);
-					BufferedReader br = new BufferedReader(new FileReader(new File(filePath)));
+					String _txtImport = txtImport.getText();
+					String getClass1 = _txtImport.substring(_txtImport.lastIndexOf("\\")+1);
+					String getClass2 = getClass1.substring(0, getClass1.lastIndexOf("."));//18HCB-CTT001
+					String getClass3 = ".\\Data\\TKB\\" + getClass2.substring(0,5) + ".csv";//18HCB
+					String getClass4 = getClass2.substring(6);//CTT001
+					String getClass5 = getClass2 + "-" + readFileForCombo(getClass3, getClass4);
+					String fileImported = ".\\Data\\Diem\\FileDaImport.csv";
+					BufferedReader br  = new BufferedReader(new FileReader(new File(filePath)));
 					List<String[]> elements = new ArrayList<String[]>();
-					String line = null;
+					String line = null; boolean flag = false;
 					while((line = br.readLine()) != null ) {
+						if(flag == false) {
+							
+							flag = true;
+							continue;
+							
+						}
+						else {
+							
+							String[] spiltted = line.split(";");
+							elements.add(spiltted);
+							
+						}
 						
-						String[] spiltted = line.split(";");
-						elements.add(spiltted);
 					}
 					br.close();
 					String[] columsName = new String[] {
-							"STT", "MSSV", "Ho Ten", "Gioi Tinh", "CMND", "Lop"	
+							"STT", "MSSV", "Họ Tên", "Điểm Giữa Kỳ", "Điểm Cuối Kỳ", "Điểm Khác","Tổng Điểm"
 					};
-					Object[][] content = new Object[elements.size()][6];
+					Object[][] content = new Object[elements.size()][7];
 					for (int i = 0; i < elements.size(); i++) {
-						for (int j = 0; j < 6; j++) {
+						for (int j = 0; j < 7; j++) {
 							
 							content[i][j] = elements.get(i)[j];
 							
@@ -101,8 +152,7 @@ public class BangDiemForm {
 						
 					}
 					table.setModel(new DefaultTableModel(content,columsName));
-					
-					
+					writeFileForCombo(fileImported, getClass5);
 					
 				} catch (Exception e2) {
 					e2.printStackTrace();
@@ -153,6 +203,25 @@ public class BangDiemForm {
 				QL_BangDiem bangDiem = new QL_BangDiem();
 				bangDiem.getfrmQLBD().setLocationRelativeTo(null);
 				bangDiem.getfrmQLBD().setVisible(true);
+				String filePath = ".\\Data\\Diem\\FileDaImport.csv" ;
+				Path pathToFile = Paths.get(filePath);
+				try(BufferedReader br = Files.newBufferedReader(pathToFile)){
+					String line =br.readLine() ;
+					while(line != null) {
+						
+						bangDiem.getcbbMonHoc().addItem(line);
+						line =br.readLine() ;
+							
+					}
+					
+					br.close();
+				}
+				catch(Exception e1) {
+					
+					e1.printStackTrace();
+					
+					
+				}
 				
 			}
 		});
