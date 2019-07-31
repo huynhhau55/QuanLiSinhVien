@@ -12,8 +12,11 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
@@ -24,6 +27,7 @@ public class ThoiKhoaBieuForm {
 	private JTable table;
 	private JTextField txtDuongDan;
 	private JButton btnBack;
+	private String fileWriteClass = ".\\Data\\TKB\\CacLopDaImport.csv";
 
 	/**
 	 * Launch the application.
@@ -32,6 +36,24 @@ public class ThoiKhoaBieuForm {
 		
 		return this.frmThoiKhoaBieu;
 	}
+	
+	public void writeFile(String input, String contain) {
+		
+		try (
+			FileWriter fw = new FileWriter(input,true);
+			BufferedWriter bw = new BufferedWriter(fw);
+			PrintWriter pw = new PrintWriter(bw);
+			) {
+				pw.println(contain);
+				pw.close();
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -77,11 +99,25 @@ public class ThoiKhoaBieuForm {
 					txtDuongDan.setText(filePath);					
 					BufferedReader br =new BufferedReader(new FileReader(new File(filePath)));
 					List<String[]> elements = new ArrayList<String[]>();
+					String getTKB1 = txtDuongDan.getText();
+					String getTKB2 = getTKB1.substring(getTKB1.lastIndexOf("\\")+1).substring(0, 5);
 					String line = null;
+					boolean flag = false ;
 					while ((line = br.readLine()) != null) {
 						
-						String[] spiltted = line.split(";");
-						elements.add(spiltted);
+						if(flag == false) {
+							
+							flag = true;
+							continue;
+							
+						}
+						
+						else {
+							
+							String[] spiltted = line.split(";");
+							elements.add(spiltted);
+							
+						}
 						
 					}
 					br.close();
@@ -97,6 +133,7 @@ public class ThoiKhoaBieuForm {
 						
 					}
 					table.setModel(new DefaultTableModel(content,columsName));
+					writeFile(fileWriteClass, getTKB2);
 				} catch (Exception e2) {
 					e2.printStackTrace();
 				}
@@ -110,7 +147,7 @@ public class ThoiKhoaBieuForm {
 		frmThoiKhoaBieu.getContentPane().add(txtDuongDan);
 		txtDuongDan.setColumns(10);
 		
-		btnBack = new JButton("Back");
+		btnBack = new JButton("Tr\u1EDF l\u1EA1i");
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -146,7 +183,21 @@ public class ThoiKhoaBieuForm {
 				QL_TKB tkb = new QL_TKB();
 				tkb.getFrmQLTKB().setLocationRelativeTo(null);
 				tkb.getFrmQLTKB().setVisible(true);
-				
+				try(FileReader fr = new FileReader(fileWriteClass);
+				BufferedReader br = new BufferedReader(fr)){
+					String line = br.readLine();
+					while(line != null) {
+						
+						tkb.getcbbMonHoc().addItem(line);
+						line = br.readLine();
+						
+					}
+					br.close();
+				}catch(Exception e1) {
+					e1.printStackTrace();
+					
+					
+				}		
 			}
 		});
 		btnQlTkb.setBounds(703, 78, 127, 39);

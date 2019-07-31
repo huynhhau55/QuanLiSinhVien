@@ -27,7 +27,7 @@ public class GiaoVuForm {
 	private JLabel lblImportVaoDanh;
 	private JScrollPane scrollPane;
 	private JButton btnQLSV;
-	private String fileWriteClass = "C:\\Users\\Mr Hau\\File Do An\\Java\\ltudjava-18hcb-18424024-bt1\\Data\\Lop\\CacLopHienCo.csv";
+	private String fileWriteClass = ".\\Data\\Lop\\CacLopHienCo.csv";
 	
 
 	/**
@@ -99,16 +99,28 @@ public class GiaoVuForm {
 					BufferedReader br  = new BufferedReader(new FileReader(new File(fileName)));
 					List<String[]> elements = new ArrayList<String[]>();
 					String line = null;
+					boolean flag = false;
 					while ((line = br.readLine()) != null) {
 						
-						String[] splitted = line.split(";");
-						elements.add(splitted);
+						if(flag == false) {
+							
+							flag = true;
+							continue;
+							
+						}
+						else {
+							
+							String[] splitted = line.split(";");
+							elements.add(splitted);
+							
+						}
+						
 						
 					}
 					br.close();
 					String[] columsName = new String[] {
 							
-							"STT", "MSSV", "Ho Ten", "Gioi Tinh", "CMND", "Lop"
+							"STT", "MSSV", "Họ Tên", "Giới Tính", "CMND", "Lớp"
 							
 						};
 					

@@ -1,9 +1,6 @@
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
-
-import com.sun.xml.internal.bind.api.impl.NameConverter.Standard;
-
 import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -16,8 +13,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
@@ -143,7 +138,7 @@ public class AddStudentForm {
 			}
 			br.close();
 			String[] columsName = new String[] {
-					"STT","MSSV","Ho Ten","Gioi Tinh", "CMND", "Lop"							
+					"STT","MSSV","Họ Tên","Giới Tính", "CMND", "Lớp"							
 			};
 			Object[][] content = new Object[elements.size()][6];
 			for(int i = 0; i < elements.size(); i++) {
