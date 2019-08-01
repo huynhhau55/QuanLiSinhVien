@@ -1,18 +1,12 @@
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.Scanner;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
 
@@ -139,7 +133,7 @@ public class ChangePasswordForm {
 				
 				boolean flag1 = false;//Bo qua vong lap dau tien vi dong dau la tieu de
 				boolean flag2 = false;//Cho biet den cuoi file ma van chua tim duoc user
-				String filePath = "matkhau.csv" ;
+				String filePath = ".\\Data\\TaiKhoan\\matkhau.csv" ;
 				List<Account> Accounts = Account.readAccounts(filePath);
 			
 				String uname = txtUsername.getText();

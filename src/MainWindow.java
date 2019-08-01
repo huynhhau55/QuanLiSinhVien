@@ -51,20 +51,21 @@ public class MainWindow {
 		frmMainWindow.setBounds(100, 100, 791, 534);
 		frmMainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmMainWindow.getContentPane().setLayout(null);
-		
+
 		JLabel lblNewLabel = new JLabel();
 		lblNewLabel.setIcon(new ImageIcon(".\\images\\bk3.jpg"));
-		//lblNewLabel.setIcon(new ImageIcon("C:\\Users\\Mr Hau\\File Do An\\Java\\ltudjava-18hcb-18424024-bt1\\images\\bk3.jpg"));
+		// lblNewLabel.setIcon(new ImageIcon("C:\\Users\\Mr Hau\\File Do
+		// An\\Java\\ltudjava-18hcb-18424024-bt1\\images\\bk3.jpg"));
 		lblNewLabel.setBounds(0, 29, 769, 449);
 		frmMainWindow.getContentPane().add(lblNewLabel);
-		
+
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBounds(0, 0, 769, 31);
 		frmMainWindow.getContentPane().add(menuBar);
-		
+
 		JMenu _import = new JMenu("Import");
 		menuBar.add(_import);
-		
+
 		JMenuItem classList = new JMenuItem("Import danh sách lớp");
 		classList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -75,44 +76,44 @@ public class MainWindow {
 			}
 		});
 		_import.add(classList);
-		
+
 		JMenuItem courseList = new JMenuItem("Import thời khóa biểu");
 		courseList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				frmMainWindow.setVisible(false);
 				ThoiKhoaBieuForm thoiKhoaBieu = new ThoiKhoaBieuForm();
 				thoiKhoaBieu.getFramThoiKhoaBieu().setLocationRelativeTo(null);
 				thoiKhoaBieu.getFramThoiKhoaBieu().setVisible(true);
-				
+
 			}
 		});
 		_import.add(courseList);
-		
+
 		JMenuItem pointTable = new JMenuItem("Import bảng điểm");
 		pointTable.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				frmMainWindow.setVisible(false);
 				BangDiemForm bangDiem = new BangDiemForm();
 				bangDiem.getFrmDiem().setLocationRelativeTo(null);
 				bangDiem.getFrmDiem().setVisible(true);
-						
-				
+
 			}
 		});
 		_import.add(pointTable);
-		
+
 		JButton btnNewButton = new JButton();
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int dialogResult = JOptionPane.showConfirmDialog(null, "Do you want logout ?","Confirm",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
-				if(dialogResult == JOptionPane.YES_OPTION){
+				int dialogResult = JOptionPane.showConfirmDialog(null, "Do you want logout ?", "Confirm",
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if (dialogResult == JOptionPane.YES_OPTION) {
 					frmMainWindow.setVisible(false);
 					LoginForm loginForm = new LoginForm();
 					loginForm.frmLogin.setLocationRelativeTo(null);
 					loginForm.frmLogin.setVisible(true);
-					
+
 				}
 			}
 		});

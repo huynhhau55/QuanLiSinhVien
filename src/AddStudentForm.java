@@ -86,7 +86,7 @@ public class AddStudentForm {
 	private void writeSinhVien(String filePath, List<Student> Students) {
 		
 		try(PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(filePath),
-				StandardCharsets.UTF_8),false)) {
+				StandardCharsets.UTF_8))) {
 			int stt = 1;
 			boolean flag = false;
 			for (Student sd : Students) {
@@ -121,7 +121,7 @@ public class AddStudentForm {
 		
 		try {
 			
-			String filePath = cbbLop.getSelectedItem() + ".csv";
+			String filePath = ".\\Data\\Lop\\" + cbbLop.getSelectedItem() + ".csv";
 			BufferedReader br = new BufferedReader(new FileReader(new File(filePath)));
 			List<String[]> elements = new ArrayList<String[]>();
 			String line = null; boolean flag = false;
@@ -213,7 +213,7 @@ public class AddStudentForm {
 				
 				try {
 					
-					String filePath = cbbLop.getSelectedItem().toString() + ".csv";
+					String filePath = ".\\Data\\Lop\\" + cbbLop.getSelectedItem().toString() + ".csv";
 					List<Student> Students = Student.readStudents(filePath);
 					String stt = Integer.toString(Students.size());
 					String gioiTinh = String.valueOf(cbbGioiTinh.getSelectedItem());
@@ -285,7 +285,7 @@ public class AddStudentForm {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				try {
-					String filePath = cbbLop.getSelectedItem() + ".csv";
+					String filePath = ".\\Data\\Lop\\" + cbbLop.getSelectedItem() + ".csv";
 					//String filePath = "18HCB.csv";
 					List<Student> Students = Student.readStudents(filePath);
 					for (Student sd : Students) {
@@ -348,7 +348,7 @@ public class AddStudentForm {
 		btnCapNhat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				String filePath = cbbLop.getSelectedItem() + ".csv";
+				String filePath = ".\\Data\\Lop\\" + cbbLop.getSelectedItem() + ".csv";
 				List<Student> Students = Student.readStudents(filePath);
 				for (Student s : Students) {
 					

@@ -85,9 +85,10 @@ public class LoginForm {
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				String filePath = ".\\Data\\TaiKhoan\\matkhau.csv";
 				boolean flag1 = false;//Bo qua vong lap dau tien vi dong dau la tieu de
 				boolean flag2 = false;//Cho biet den cuoi file ma van chua tim duoc user
-				List<Account> Accounts = Account.readAccounts("matkhau.csv");
+				List<Account> Accounts = Account.readAccounts(filePath);
 					for(Account a : Accounts) {
 						if(flag1 == false) {
 							flag1 = true;
@@ -106,12 +107,12 @@ public class LoginForm {
 						MainWindow mainWindow = new MainWindow();
 						mainWindow.getFrmMainWindow().setLocationRelativeTo(null);
 						mainWindow.getFrmMainWindow().setVisible(true);
-						
-						
-						
 						}
 						else {
-							JOptionPane.showMessageDialog(frmLogin,"Thanh cong");
+							
+							XemDiemForm xemDiem = new XemDiemForm();
+							xemDiem.getJFrame().setLocationRelativeTo(null);
+							xemDiem.getJFrame().setVisible(true);
 						}
 					}
 					

@@ -1,5 +1,4 @@
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -8,10 +7,20 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
+import com.sun.xml.internal.stream.writers.UTF8OutputStreamWriter;
 import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class QL_BangDiem {
 
@@ -21,10 +30,14 @@ public class QL_BangDiem {
 	private JTextField txtDiemGK;
 	private JTextField txtDiemCK;
 	private JTextField txtDiemKhac;
-	private JTextField textField;
+	private JTextField txtMSSV;
 	private JTextField txtDau;
 	private JTextField txtRot;
 	private JComboBox<String> cbbMonHoc;
+	private JTextField txtDiemTong;
+	
+	
+	
 
 	/**
 	 * Launch the application.
@@ -39,14 +52,88 @@ public class QL_BangDiem {
 		return this.cbbMonHoc;
 		
 	}
+	public String dauRot(String tongDiem) {
+		
+		float _tongDiem = Float.parseFloat(tongDiem);
+		if(_tongDiem < 5.0 )
+		{
+			return "Rớt";
+		}
+		return "Đậu";
+	}
+	public void loadBangDiem() {
+		
+		int Dau = 0; int Rot = 0; double DauPercent; double RotPercent;
+		String valueCbbMonHoc = cbbMonHoc.getSelectedItem().toString();
+		String filePath = ".\\Data\\Diem\\" + valueCbbMonHoc.substring(0,valueCbbMonHoc.lastIndexOf("-")) + ".csv";
+		try (BufferedReader br = new BufferedReader(new FileReader(filePath))){
+			
+			List<String[]> elements = new ArrayList<String[]>();
+			String line = null; boolean flag = false;
+			while((line = br.readLine()) != null ) {
+				if(flag == false) {
+					flag = true;
+					continue;
+				}
+				else {
+					
+					String[] spiltted = line.split(";");
+					elements.add(spiltted);
+				}
+			}
+			br.close();
+			String[] columsName = new String[] {
+					"STT","MSSV","Họ Tên","Điểm Giữa Kỳ", "Điểm Cuối Kỳ", "Điểm Khác", "Tổng Điểm", "Kết Quả"					
+			};
+			Object[][] content = new Object[elements.size()][8];
+			for(int i = 0; i < elements.size(); i++) {
+				for(int j = 0; j < 8; j++) {
+					
+					if(j == 7) {
+						
+						content[i][7] = dauRot(elements.get(i)[6].toString());
+						if(content[i][7].toString().equalsIgnoreCase("Đậu")){
+							
+							Dau++;
+						}
+						else if(content[i][7].toString().equalsIgnoreCase("Rớt")) {
+							
+							Rot++;
+						}
+						
+					}
+					else {
+						
+						content[i][j] = elements.get(i)[j];
+					}
+				}
+			}
+			table.setModel(new DefaultTableModel(content,columsName));
+			int Tong = Dau + Rot;
+			if(Tong != 0) {
+				DauPercent = Math.round(((Dau * 100) / Tong)*100.0)/100.0;
+				RotPercent = 100 - DauPercent;
+			}
+			else {
+				DauPercent = RotPercent = 0;
+			}
+			txtDau.setText(Integer.toString(Dau) + " - " + Double.toString(DauPercent) + "%");
+			txtRot.setText(Integer.toString(Rot) + " - " + Double.toString(RotPercent) + "%");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					
 					QL_BangDiem window = new QL_BangDiem();
 					window .frmQLBD.setLocationRelativeTo(null);
 					window.frmQLBD.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -83,6 +170,22 @@ public class QL_BangDiem {
 		frmQLBD.getContentPane().add(scrollPane);
 		
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+				DefaultTableModel dfModel =  (DefaultTableModel)table.getModel();
+				int selectedRowIndex = table.getSelectedRow();
+				txtMSSV.setText(dfModel.getValueAt(selectedRowIndex, 1).toString());
+				txtHoTen.setText(dfModel.getValueAt(selectedRowIndex, 2).toString());
+				txtDiemGK.setText(dfModel.getValueAt(selectedRowIndex, 3).toString());
+				txtDiemCK.setText(dfModel.getValueAt(selectedRowIndex, 4).toString());
+				txtDiemKhac.setText(dfModel.getValueAt(selectedRowIndex, 5).toString());
+				txtDiemTong.setText(dfModel.getValueAt(selectedRowIndex, 6).toString());
+				
+				
+			}
+		});
 		scrollPane.setViewportView(table);
 		
 		JLabel lblNewLabel_1 = new JLabel("M\u00F4n h\u1ECDc");
@@ -94,7 +197,13 @@ public class QL_BangDiem {
 		frmQLBD.getContentPane().add(lblNewLabel_2);
 		
 		cbbMonHoc = new JComboBox<String>();
-		cbbMonHoc.setBounds(234, 42, 422, 26);
+		cbbMonHoc.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				loadBangDiem();
+			}
+		});
+		cbbMonHoc.setBounds(234, 42, 701, 26);
 		frmQLBD.getContentPane().add(cbbMonHoc);
 		
 		JLabel lblNewLabel_3 = new JLabel("H\u1ECD t\u00EAn");
@@ -116,16 +225,16 @@ public class QL_BangDiem {
 		txtDiemGK.setColumns(10);
 		
 		JLabel lblNewLabel_5 = new JLabel("\u0110i\u1EC3m CK");
-		lblNewLabel_5.setBounds(692, 45, 69, 20);
+		lblNewLabel_5.setBounds(426, 126, 69, 20);
 		frmQLBD.getContentPane().add(lblNewLabel_5);
 		
 		txtDiemCK = new JTextField();
-		txtDiemCK.setBounds(799, 42, 146, 26);
+		txtDiemCK.setBounds(510, 123, 146, 26);
 		frmQLBD.getContentPane().add(txtDiemCK);
 		txtDiemCK.setColumns(10);
 		
 		JLabel lblNewLabel_6 = new JLabel("\u0110i\u1EC3m kh\u00E1c");
-		lblNewLabel_6.setBounds(682, 87, 80, 20);
+		lblNewLabel_6.setBounds(692, 87, 82, 20);
 		frmQLBD.getContentPane().add(lblNewLabel_6);
 		
 		txtDiemKhac = new JTextField();
@@ -133,20 +242,109 @@ public class QL_BangDiem {
 		frmQLBD.getContentPane().add(txtDiemKhac);
 		txtDiemKhac.setColumns(10);
 		
-		textField = new JTextField();
-		textField.setBounds(234, 84, 146, 26);
-		frmQLBD.getContentPane().add(textField);
-		textField.setColumns(10);
+		txtMSSV = new JTextField();
+		txtMSSV.setBounds(234, 84, 146, 26);
+		frmQLBD.getContentPane().add(txtMSSV);
+		txtMSSV.setColumns(10);
 		
 		JButton btnThem = new JButton("Th\u00EAm");
-		btnThem.setBounds(131, 171, 156, 43);
+		btnThem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				String valueCbbMonHoc = cbbMonHoc.getSelectedItem().toString();
+				String filePath = ".\\Data\\Diem\\" + valueCbbMonHoc.substring(0,valueCbbMonHoc.lastIndexOf("-")) + ".csv";
+				List<BangDiem> bangDiemS = BangDiem.readBangDiem(filePath);
+				int size = bangDiemS.size() + 1;
+				String STT = Integer.toString(size);
+				try(PrintWriter pw = new PrintWriter(new UTF8OutputStreamWriter(new FileOutputStream(filePath,true)))){
+					
+					pw.println(STT + ";"+ txtMSSV.getText() + ";" + txtHoTen.getText() + ";" + 
+								txtDiemGK.getText() + ";" + txtDiemCK.getText() + ";" +txtDiemKhac.getText() + ";" + txtDiemTong.getText());
+					pw.close();
+					loadBangDiem();
+				}catch(Exception e) {
+					
+					e.printStackTrace();				
+				}
+			}
+		});
+		btnThem.setBounds(129, 165, 156, 43);
 		frmQLBD.getContentPane().add(btnThem);
 		
 		JButton btnXoa = new JButton("X\u00F3a");
+		btnXoa.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				String valueCbbMonHoc = cbbMonHoc.getSelectedItem().toString();
+				String filePath = ".\\Data\\Diem\\" + valueCbbMonHoc.substring(0,valueCbbMonHoc.lastIndexOf("-")) + ".csv";
+				List<BangDiem> bangDiemS = BangDiem.readBangDiem(filePath);
+				for(BangDiem b : bangDiemS) {
+					
+					if(b.getMaSV().equalsIgnoreCase(txtMSSV.getText())) {
+						bangDiemS.remove(b);break;
+					}
+				}
+				try(PrintWriter pw = new PrintWriter(new UTF8OutputStreamWriter(new FileOutputStream(filePath,false)))){
+						
+					pw.println("STT;MSSV;Họ tên;Điểm GK;Điểm CK;Điểm Khác;Điểm Tổng");
+					int stt = 1;
+					for(BangDiem b : bangDiemS) {
+						
+						pw.println(Integer.toString(stt++) + ";" + b.getMaSV() + ";" + b.getHoTen() + ";" + b.getDiemGK() + ";" + b.getDiemCK()+
+									";" + b.getDiemKhac() + ";" + b.getDiemTong());
+				
+					}
+						pw.close();
+						loadBangDiem();
+				}catch(Exception e) {
+						
+						e.printStackTrace();				
+				}
+			}
+		});
 		btnXoa.setBounds(365, 171, 151, 43);
 		frmQLBD.getContentPane().add(btnXoa);
 		
 		JButton btnCapNhat = new JButton("C\u1EADp nh\u1EADt");
+		btnCapNhat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				String valueCbbMonHoc = cbbMonHoc.getSelectedItem().toString();
+				String filePath = ".\\Data\\Diem\\" + valueCbbMonHoc.substring(0,valueCbbMonHoc.lastIndexOf("-")) + ".csv";
+				List<BangDiem> bangDiemS = BangDiem.readBangDiem(filePath);
+				for(BangDiem b : bangDiemS) {
+					
+					if(b.getMaSV().equalsIgnoreCase(txtMSSV.getText())) {
+						
+						b.setDiemGK(Float.parseFloat(txtDiemGK.getText()));
+						b.setDiemCK(Float.parseFloat(txtDiemCK.getText()));
+						b.setDiemKhac(Float.parseFloat(txtDiemKhac.getText()));
+						b.setDiemTong(Float.parseFloat(txtDiemTong.getText()));
+						break;
+						
+					}	
+				}
+				
+				try(PrintWriter pw = new PrintWriter(new UTF8OutputStreamWriter(new FileOutputStream(filePath,false)))){
+					
+					pw.println("STT;MSSV;Họ tên;Điểm GK;Điểm CK;Điểm Khác;Điểm Tổng");
+					int stt = 1;
+					for(BangDiem b : bangDiemS) {
+						
+						pw.println(Integer.toString(stt++) + ";" + b.getMaSV() + ";" + b.getHoTen() + ";" + b.getDiemGK() + ";" + b.getDiemCK()+
+									";" + b.getDiemKhac() + ";" + b.getDiemTong());
+				
+					}
+						pw.close();
+						loadBangDiem();
+				}catch(Exception e) {
+						
+						e.printStackTrace();				
+				}
+				
+				
+			}
+		});
 		btnCapNhat.setBounds(584, 171, 156, 43);
 		frmQLBD.getContentPane().add(btnCapNhat);
 		
@@ -162,28 +360,44 @@ public class QL_BangDiem {
 				
 			}
 		});
-		btnQuayLai.setBounds(799, 171, 146, 43);
+		btnQuayLai.setBounds(789, 171, 146, 43);
 		frmQLBD.getContentPane().add(btnQuayLai);
 		
 		JLabel lblNewLabel_7 = new JLabel("\u0110\u1EADu");
-		lblNewLabel_7.setBounds(296, 581, 28, 20);
+		lblNewLabel_7.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblNewLabel_7.setBounds(309, 581, 41, 20);
 		frmQLBD.getContentPane().add(lblNewLabel_7);
 		
 		txtDau = new JTextField();
-		txtDau.setEnabled(false);
-		txtDau.setBounds(339, 578, 146, 26);
+		txtDau.setForeground(Color.RED);
+		txtDau.setFont(new Font("Tahoma", Font.BOLD, 18));
+		txtDau.setHorizontalAlignment(SwingConstants.CENTER);
+		txtDau.setEditable(false);
+		txtDau.setBounds(365, 578, 130, 26);
 		frmQLBD.getContentPane().add(txtDau);
 		txtDau.setColumns(10);
 		
 		JLabel lblNewLabel_8 = new JLabel("R\u1EDBt");
-		lblNewLabel_8.setBounds(605, 581, 28, 20);
+		lblNewLabel_8.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblNewLabel_8.setBounds(525, 581, 41, 20);
 		frmQLBD.getContentPane().add(lblNewLabel_8);
 		
 		txtRot = new JTextField();
-		txtRot.setEnabled(false);
-		txtRot.setBounds(648, 578, 146, 26);
+		txtRot.setFont(new Font("Tahoma", Font.BOLD, 18));
+		txtRot.setForeground(Color.RED);
+		txtRot.setHorizontalAlignment(SwingConstants.CENTER);
+		txtRot.setEditable(false);
+		txtRot.setBounds(584, 578, 130, 26);
 		frmQLBD.getContentPane().add(txtRot);
 		txtRot.setColumns(10);
+		
+		JLabel lblNewLabel_9 = new JLabel("Điểm Tổng");
+		lblNewLabel_9.setBounds(692, 126, 88, 20);
+		frmQLBD.getContentPane().add(lblNewLabel_9);
+		
+		txtDiemTong = new JTextField();
+		txtDiemTong.setBounds(789, 123, 146, 26);
+		frmQLBD.getContentPane().add(txtDiemTong);
+		txtDiemTong.setColumns(10);
 	}
-
 }
