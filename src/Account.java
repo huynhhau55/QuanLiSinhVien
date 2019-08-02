@@ -1,4 +1,5 @@
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -31,7 +32,7 @@ public class Account {
 	 public static List<Account> readAccounts (String fileName){
 		 List<Account> accounts = new ArrayList<>();
 		 Path pathToFile = Paths.get(fileName);
-		 try(BufferedReader br = Files.newBufferedReader(pathToFile)){
+		 try(BufferedReader br = Files.newBufferedReader(pathToFile,StandardCharsets.UTF_8)){
 			 String line = br.readLine();
 			 while(line != null) {
 				 String[] attributes = line.split(";");

@@ -1,7 +1,15 @@
 eclipse.preferences.version=1
+encoding//Data/Diem/17HCB-CTT001.csv=UTF-8
+encoding//Data/Diem/18HCB-CTT011.csv=UTF-8
+encoding//Data/Diem/FileDaImport.csv=UTF-8
+encoding//Data/Lop=UTF-8
+encoding//Data/TKB/17HCB.csv=UTF-8
+encoding//Data/TKB/18HCB.csv=UTF-8
+encoding//Data/TKB/CacLopDaImport.csv=UTF-8
 encoding//src/AddStudentForm.java=UTF-8
 encoding//src/BangDiemForm.java=UTF-8
 encoding//src/GiaoVuForm.java=UTF-8
 encoding//src/MainWindow.java=UTF-8
 encoding//src/QL_BangDiem.java=UTF-8
 encoding//src/QL_TKB.java=UTF-8
+encoding/Data=UTF-8

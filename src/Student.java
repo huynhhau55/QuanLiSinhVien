@@ -4,6 +4,10 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,9 +104,9 @@ public class Student {
 	public static List<Student> readStudents(String fileName) {
 		
 		List<Student> Students = new ArrayList<Student>();
-		//Path pathToFile = Paths.get(fileName);
-		//try (BufferedReader br = Files.newBufferedReader(pathToFile)) {
-		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileName),"UTF-8"))) {
+		Path pathToFile = Paths.get(fileName);
+		try (BufferedReader br = Files.newBufferedReader(pathToFile,StandardCharsets.UTF_8)) {
+			
 			String line = br.readLine();
 			while(line != null) {
 				

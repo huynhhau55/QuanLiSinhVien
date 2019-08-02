@@ -19,16 +19,21 @@ public class LoginForm {
 
 	public JFrame frmLogin;
 	private JPasswordField passwordField_password;
+	private JTextPane textPane_userName;
 	/**
 	 * Launch the application.
 	 */
 	
 	public JFrame getFrmLogin() {
 		
-		return this.frmLogin;
+		return frmLogin;
 		
 	}
 	
+	public JTextPane gettextPane_userName() {
+		
+		return textPane_userName;
+	}
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -73,7 +78,7 @@ public class LoginForm {
 		lblPassword.setBounds(20, 322, 96, 26);
 		frmLogin.getContentPane().add(lblPassword);
 		
-		JTextPane textPane_userName = new JTextPane();
+		textPane_userName = new JTextPane();
 		textPane_userName.setBounds(108, 274, 123, 26);
 		frmLogin.getContentPane().add(textPane_userName);
 		
@@ -113,6 +118,7 @@ public class LoginForm {
 							XemDiemForm xemDiem = new XemDiemForm();
 							xemDiem.getJFrame().setLocationRelativeTo(null);
 							xemDiem.getJFrame().setVisible(true);
+							xemDiem.getlblMSSV().setText(uname);
 						}
 					}
 					

@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
@@ -106,7 +105,7 @@ public class BangDiemForm {
 		btnImport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				try {
+				 
 					
 					JFileChooser choser = new JFileChooser();
 					choser.showOpenDialog(null);
@@ -120,7 +119,8 @@ public class BangDiemForm {
 					String getClass4 = getClass2.substring(6);//CTT001
 					String getClass5 = getClass2 + "-" + readFileForCombo(getClass3, getClass4);
 					String fileImported = ".\\Data\\Diem\\FileDaImport.csv";
-					BufferedReader br  = new BufferedReader(new FileReader(new File(filePath)));
+					Path pathToFile = Paths.get(fileImported);
+					try(BufferedReader br  = Files.newBufferedReader(pathToFile, StandardCharsets.UTF_8)){
 					List<String[]> elements = new ArrayList<String[]>();
 					String line = null; boolean flag = false;
 					while((line = br.readLine()) != null ) {
@@ -219,7 +219,6 @@ public class BangDiemForm {
 				catch(Exception e1) {
 					
 					e1.printStackTrace();
-					
 					
 				}
 				

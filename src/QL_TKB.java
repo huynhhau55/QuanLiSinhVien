@@ -174,7 +174,7 @@ public class QL_TKB {
 					}
 				}
 				try(PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(filePath),
-						StandardCharsets.UTF_8),false)) {
+						StandardCharsets.UTF_8))) {
 					int stt=1; boolean flag = false;
 					for(ThoiKhoaBieuClass t : tKBs) {
 						

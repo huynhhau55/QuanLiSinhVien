@@ -1,5 +1,6 @@
 import java.awt.EventQueue;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -88,7 +89,7 @@ public class GiaoVuForm {
 		JButton btnImport = new JButton("Import");
 		btnImport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				try {
+				
 					JFileChooser chooser = new JFileChooser();
 					chooser.showOpenDialog(null);
 					File f = chooser.getSelectedFile() ;
@@ -96,7 +97,8 @@ public class GiaoVuForm {
 					txtDuongDan.setText(fileName);
 					String getClass1 = txtDuongDan.getText();
 					String getClass2 = getClass1.substring(getClass1.lastIndexOf("\\") +1 ).substring(0,5);
-					BufferedReader br  = new BufferedReader(new FileReader(new File(fileName)));
+					Path pathToFile = Paths.get(fileName);
+					try (BufferedReader br  = Files.newBufferedReader(pathToFile, StandardCharsets.UTF_8)){
 					List<String[]> elements = new ArrayList<String[]>();
 					String line = null;
 					boolean flag = false;
@@ -185,7 +187,7 @@ public class GiaoVuForm {
 					studentForm.getFrmAddSd().setLocationRelativeTo(null);
 					studentForm.getFrmAddSd().setVisible(true);
 					Path pathToFile = Paths.get(fileWriteClass);
-					BufferedReader br = Files.newBufferedReader(pathToFile);
+					BufferedReader br = Files.newBufferedReader(pathToFile,StandardCharsets.UTF_8);
 					String line = br.readLine();	
 					while(line != null) {
 						studentForm.getCbbLop().addItem(line);

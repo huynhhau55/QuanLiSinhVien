@@ -9,8 +9,11 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
@@ -66,7 +69,8 @@ public class QL_BangDiem {
 		int Dau = 0; int Rot = 0; double DauPercent; double RotPercent;
 		String valueCbbMonHoc = cbbMonHoc.getSelectedItem().toString();
 		String filePath = ".\\Data\\Diem\\" + valueCbbMonHoc.substring(0,valueCbbMonHoc.lastIndexOf("-")) + ".csv";
-		try (BufferedReader br = new BufferedReader(new FileReader(filePath))){
+		Path pathToFile = Paths.get(filePath);
+		try (BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.UTF_8)){
 			
 			List<String[]> elements = new ArrayList<String[]>();
 			String line = null; boolean flag = false;
@@ -290,8 +294,8 @@ public class QL_BangDiem {
 					int stt = 1;
 					for(BangDiem b : bangDiemS) {
 						
-						pw.println(Integer.toString(stt++) + ";" + b.getMaSV() + ";" + b.getHoTen() + ";" + b.getDiemGK() + ";" + b.getDiemCK()+
-									";" + b.getDiemKhac() + ";" + b.getDiemTong());
+						pw.println(Integer.toString(stt++) + ";" + b.getMaSV() + ";" + b.getHoTen() + ";" + b.getDiemGK() 
+									+ ";" + b.getDiemCK()+";" + b.getDiemKhac() + ";" + b.getDiemTong());
 				
 					}
 						pw.close();
@@ -331,8 +335,8 @@ public class QL_BangDiem {
 					int stt = 1;
 					for(BangDiem b : bangDiemS) {
 						
-						pw.println(Integer.toString(stt++) + ";" + b.getMaSV() + ";" + b.getHoTen() + ";" + b.getDiemGK() + ";" + b.getDiemCK()+
-									";" + b.getDiemKhac() + ";" + b.getDiemTong());
+						pw.println(Integer.toString(stt++) + ";" + b.getMaSV() + ";" + b.getHoTen() + ";" + b.getDiemGK() + 
+													";" + b.getDiemCK()+";" + b.getDiemKhac() + ";" + b.getDiemTong());
 				
 					}
 						pw.close();

@@ -1,6 +1,7 @@
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
+import com.sun.xml.internal.stream.writers.UTF8OutputStreamWriter;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -8,14 +9,13 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
@@ -40,8 +40,6 @@ public class AddStudentForm {
 	private JScrollPane scrollPane;
 	private JComboBox<String> cbbLop;
 	private JLabel lblQunLSinh;
-	
-	
 	
 
 	/**
@@ -118,11 +116,10 @@ public class AddStudentForm {
 		}
 	}
 	private void loadSinhVien() {
-		
-		try {
 			
 			String filePath = ".\\Data\\Lop\\" + cbbLop.getSelectedItem() + ".csv";
-			BufferedReader br = new BufferedReader(new FileReader(new File(filePath)));
+			Path pathToFile = Paths.get(filePath);
+			try(BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.UTF_8)){
 			List<String[]> elements = new ArrayList<String[]>();
 			String line = null; boolean flag = false;
 			while((line = br.readLine()) != null ) {
@@ -210,8 +207,6 @@ public class AddStudentForm {
 		btnThem = new JButton("Th\u00EAm");
 		btnThem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				try {
 					
 					String filePath = ".\\Data\\Lop\\" + cbbLop.getSelectedItem().toString() + ".csv";
 					List<Student> Students = Student.readStudents(filePath);
@@ -219,9 +214,7 @@ public class AddStudentForm {
 					String gioiTinh = String.valueOf(cbbGioiTinh.getSelectedItem());
 					Student sd = new Student(stt, txtMSSV.getText(), txtHoTen.getText(), 
 										gioiTinh,txtCMND.getText() , cbbLop.getSelectedItem().toString());
-					FileWriter fw = new FileWriter(filePath,true);
-					BufferedWriter bw = new BufferedWriter(fw);
-					PrintWriter pw = new PrintWriter(bw);
+					try(PrintWriter pw = new PrintWriter(new UTF8OutputStreamWriter(new FileOutputStream(filePath,true)))){
 					pw.println(sd.getsttStudent() + ";" + sd.getstudentID() + ";" + sd.getnameStudent() + ";" + 
 							   sd.getgenderStudent() + ";" + sd.getidentityCard() + ";" + sd.getclassRoom() );
 					
@@ -230,8 +223,7 @@ public class AddStudentForm {
 					txtCMND.setText("");
 					txtHoTen.setText("");
 					txtMSSV.setText("");
-					
-					
+						
 				}
 				catch(Exception ioe) {
 					
@@ -303,7 +295,7 @@ public class AddStudentForm {
 							BufferedWriter bw = new BufferedWriter(fw);
 							PrintWriter pw = new PrintWriter(bw)){*/
 					try(PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(filePath),
-																			StandardCharsets.UTF_8),false)) {
+																			StandardCharsets.UTF_8))) {
 						int stt = 1;
 						boolean flag = false;
 						for (Student sd : Students) {
