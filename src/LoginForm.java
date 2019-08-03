@@ -118,7 +118,7 @@ public class LoginForm {
 							XemDiemForm xemDiem = new XemDiemForm();
 							xemDiem.getJFrame().setLocationRelativeTo(null);
 							xemDiem.getJFrame().setVisible(true);
-							xemDiem.getlblMSSV().setText(uname);
+							xemDiem.setlblMSSV(uname);
 						}
 					}
 					

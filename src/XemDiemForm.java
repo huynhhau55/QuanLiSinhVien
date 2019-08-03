@@ -6,20 +6,28 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.Color;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 public class XemDiemForm {
 
 	private JFrame frmThongTinDiem;
 	private JTable table;
 	private JLabel lblMSSV;
+	private JLabel lblXinChao;
+	private JLabel lblXinChao2;
 	
 	public JFrame getJFrame() {
 		
@@ -29,10 +37,154 @@ public class XemDiemForm {
 		
 		return lblMSSV;
 	}
+	public void  setlblMSSV (String maSV){
+		
+		this.lblMSSV.setText(maSV);
+	}
+	String readFile(String filePath2) {
+		
+		String line2 = null;
+		Path pathToFile2 = Paths.get(filePath2);
+		try(BufferedReader br2 = Files.newBufferedReader(pathToFile2, StandardCharsets.UTF_8)){
+			
+			while ((line2 = br2.readLine()) != null) {
+				
+				String[] spiltted = line2.split(";");
+				if(lblMSSV.getText().equalsIgnoreCase(spiltted[1])) {
+					br2.close();
+					return spiltted[2];
+				}
+			}
+			br2.close();
+		}catch(Exception e2) {
+			
+			e2.printStackTrace();
+		}
+		return null;
+		
+	}
 	
+	String readFileForClass(String filePath) {
+		
+		Path pathToFile = Paths.get(filePath);
+		List<String> dsLop = new ArrayList<String>();
+		try(BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.UTF_8)){
+			
+			String line = null;
+			String hoTen_ = null;
+			String fileName = null;
+			while ((line = br.readLine()) != null) {
+
+					dsLop.add(line);
+			}
+			br.close();
+			for(int i=0; i < dsLop.size(); i++ ) {
+				
+				fileName = ".\\Data\\Lop\\" + dsLop.get(i) + ".csv";
+				hoTen_ = readFile(fileName);
+				if(hoTen_ != null) {
+					
+					return hoTen_.toUpperCase() + ", LỚP " +dsLop.get(i);
+				}
+				
+			}
+		}catch(Exception e) {
+			
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public String dauRot(String tongDiem) {
+		
+		float _tongDiem = Float.parseFloat(tongDiem);
+		if(_tongDiem < 5.0 )
+		{
+			return "Rớt";
+		}
+		return "Đậu";
+	}
+	
+	void readDiem(String filepath, String maSV) {
+		
+		List<String> bangDiemS = new ArrayList<String>();
+		List<String[]> bangDiemS2 = new ArrayList<String[]>();
+		Path pathToFile3 = Paths.get(filepath);
+		String line3 = null; 
+		String duongDan = null; String line4 = null; String fileCacLop = null;
+		try(BufferedReader br3 = Files.newBufferedReader(pathToFile3, StandardCharsets.UTF_8)){
+			
+			while((line3 = br3.readLine()) != null){
+				
+				bangDiemS.add(line3);
+			}
+			br3.close();
+			for (int i = 0; i < bangDiemS.size(); i++) {
+				
+				fileCacLop = bangDiemS.get(i) ;
+				duongDan = ".\\Data\\Diem\\" + fileCacLop.substring(0, fileCacLop.lastIndexOf("-"))  + ".csv";
+				Path pathToFile4 = Paths.get(duongDan);
+				try(BufferedReader br4 = Files.newBufferedReader(pathToFile4, StandardCharsets.UTF_8)){
+					while((line4 = br4.readLine()) != null) {
+						
+						String[]  spiltted4 = line4.split(";");
+						if(spiltted4[1].equalsIgnoreCase(maSV)) {
+							spiltted4[0]= fileCacLop.substring(0, fileCacLop.indexOf("-"));
+							spiltted4[1] = fileCacLop.substring(fileCacLop.indexOf("-") +1 , fileCacLop.lastIndexOf("-"));
+							spiltted4[2] = fileCacLop.substring(fileCacLop.lastIndexOf("-") + 1);
+							bangDiemS2.add(spiltted4);						
+							break;
+						}
+					}
+					br4.close();
+				}catch (Exception e4) {
+					e4.printStackTrace();
+				}
+			}	
+			
+			String[] columsName = new String[] {
+					"STT","Lớp Môn Học","Mã Môn Học","Tên Môn Học","Điểm Giữa Kỳ", "Điểm Cuối Kỳ", "Điểm Khác", "Tổng Điểm", "Kết Quả"					
+			};
+			Object[][] content = new Object[bangDiemS2.size()][9];
+			int sTT = 1;int Dau = 0;int Rot = 0;
+			for(int i = 0; i < bangDiemS2.size(); i++) {
+				for(int j = 0; j < 9; j++) {
+					if(j == 0){
+						
+						content[i][j] = Integer.toString(sTT++);
+					}
+					
+					else if(j == 8) {
+						
+						content[i][8] = dauRot(bangDiemS2.get(i)[6].toString());
+						if(content[i][8].toString().equalsIgnoreCase("Đậu")){
+							
+							Dau++;
+						}
+						else if(content[i][8].toString().equalsIgnoreCase("Rớt")) {
+							
+							Rot++;
+						}
+						
+					}
+					else {
+						
+						content[i][j] = bangDiemS2.get(i)[j -1];
+					}
+				}
+			}
+			table.setModel(new DefaultTableModel(content,columsName));
+			
+		}catch(Exception e3){
+			
+			e3.printStackTrace();
+		}
+		
+	}
 	/**
 	 * Launch the application.
 	 */
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -60,12 +212,14 @@ public class XemDiemForm {
 	private void initialize() {
 		frmThongTinDiem = new JFrame();
 		frmThongTinDiem.addWindowListener(new WindowAdapter() {
-			
 			@Override
 			public void windowOpened(WindowEvent e) {
 				
-				String uName = lblMSSV.getText();
-				JOptionPane.showMessageDialog(frmThongTinDiem, uName);
+				String filePath = ".\\Data\\Lop\\CacLopHienCo.csv";
+				lblXinChao2.setText(readFileForClass(filePath));
+				String maSV = lblMSSV.getText();
+				readDiem(".\\Data\\Diem\\FileDaImport.csv",maSV);
+				
 			}
 		});
 		frmThongTinDiem.setTitle("TH\u00D4NG TIN \u0110I\u1EC2M");
@@ -73,11 +227,11 @@ public class XemDiemForm {
 		frmThongTinDiem.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmThongTinDiem.getContentPane().setLayout(null);
 		
-		JLabel lblXinChao = new JLabel("TH\u00D4NG TIN \u0110I\u1EC2M C\u1EE6A ");
+		lblXinChao = new JLabel("TH\u00D4NG TIN \u0110I\u1EC2M C\u1EE6A SINH VI\u00CAN");
 		lblXinChao.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblXinChao.setHorizontalAlignment(SwingConstants.CENTER);
 		lblXinChao.setForeground(Color.RED);
-		lblXinChao.setBounds(15, 0, 1055, 86);
+		lblXinChao.setBounds(15, 0, 1055, 60);
 		frmThongTinDiem.getContentPane().add(lblXinChao);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -121,5 +275,12 @@ public class XemDiemForm {
 		lblNewLabel.setIcon(new ImageIcon(".\\images\\Add.png"));
 		lblNewLabel.setBounds(37, 26, 63, 60);
 		frmThongTinDiem.getContentPane().add(lblNewLabel);
+		
+		lblXinChao2 = new JLabel("");
+		lblXinChao2.setForeground(Color.RED);
+		lblXinChao2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblXinChao2.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblXinChao2.setBounds(375, 39, 335, 36);
+		frmThongTinDiem.getContentPane().add(lblXinChao2);
 	}
 }
