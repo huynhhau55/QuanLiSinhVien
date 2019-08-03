@@ -105,8 +105,6 @@ public class BangDiemForm {
 		btnImport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				 
-					
 					JFileChooser choser = new JFileChooser();
 					choser.showOpenDialog(null);
 					File f =choser.getSelectedFile();
@@ -119,7 +117,7 @@ public class BangDiemForm {
 					String getClass4 = getClass2.substring(6);//CTT001
 					String getClass5 = getClass2 + "-" + readFileForCombo(getClass3, getClass4);
 					String fileImported = ".\\Data\\Diem\\FileDaImport.csv";
-					Path pathToFile = Paths.get(fileImported);
+					Path pathToFile = Paths.get(".\\Data\\Diem\\" + getClass2 + ".csv");
 					try(BufferedReader br  = Files.newBufferedReader(pathToFile, StandardCharsets.UTF_8)){
 					List<String[]> elements = new ArrayList<String[]>();
 					String line = null; boolean flag = false;

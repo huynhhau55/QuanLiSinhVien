@@ -240,9 +240,9 @@ public class AddStudentForm {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				frmAddSd.setVisible(false);
-				MainWindow mainWindow = new MainWindow();
-				mainWindow.getFrmMainWindow().setLocationRelativeTo(null);
-				mainWindow.getFrmMainWindow().setVisible(true);
+				GiaoVuForm giaovu = new GiaoVuForm();
+				giaovu.getFrmGiaoVu().setLocationRelativeTo(null);
+				giaovu.getFrmGiaoVu().setVisible(true);
 				
 			}
 		});

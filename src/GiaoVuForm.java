@@ -10,9 +10,6 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
-import com.sun.xml.internal.stream.writers.UTF8OutputStreamWriter;
-
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -32,6 +29,7 @@ public class GiaoVuForm {
 	private JScrollPane scrollPane;
 	private JButton btnQLSV;
 	private String fileWriteClass = ".\\Data\\Lop\\CacLopHienCo.csv";
+	
 	
 
 	/**
