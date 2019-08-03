@@ -54,8 +54,6 @@ public class MainWindow {
 
 		JLabel lblNewLabel = new JLabel();
 		lblNewLabel.setIcon(new ImageIcon(".\\images\\bk3.jpg"));
-		// lblNewLabel.setIcon(new ImageIcon("C:\\Users\\Mr Hau\\File Do
-		// An\\Java\\ltudjava-18hcb-18424024-bt1\\images\\bk3.jpg"));
 		lblNewLabel.setBounds(0, 29, 769, 449);
 		frmMainWindow.getContentPane().add(lblNewLabel);
 

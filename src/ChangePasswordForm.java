@@ -5,10 +5,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
+import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
+
+import com.sun.xml.internal.stream.writers.UTF8OutputStreamWriter;
 
 public class ChangePasswordForm {
 
@@ -26,7 +29,7 @@ public class ChangePasswordForm {
 		
 		try {
 			
-			PrintWriter pw = new PrintWriter(filePath);
+			PrintWriter pw = new PrintWriter(new UTF8OutputStreamWriter(new FileOutputStream(filePath)));
 			int i =Accounts.size();
 			for(Account a : Accounts ) {
 				if(--i == 0 ){ 
@@ -170,7 +173,7 @@ public class ChangePasswordForm {
 				passwNew.setText("");
 				passwConf.setText("");
 				
-				JOptionPane.showMessageDialog(frmChangePassword,"Thanh cong");
+				JOptionPane.showMessageDialog(frmChangePassword,"Thành công");
 					
 			}
 		});

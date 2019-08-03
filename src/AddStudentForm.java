@@ -291,9 +291,6 @@ public class AddStudentForm {
 						}
 						
 					}
-					/*try(FileWriter fw = new FileWriter(filePath,false);
-							BufferedWriter bw = new BufferedWriter(fw);
-							PrintWriter pw = new PrintWriter(bw)){*/
 					try(PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(filePath),
 																			StandardCharsets.UTF_8))) {
 						int stt = 1;

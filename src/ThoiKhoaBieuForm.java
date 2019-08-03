@@ -12,11 +12,14 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
@@ -39,11 +42,7 @@ public class ThoiKhoaBieuForm {
 	
 	public void writeFile(String input, String contain) {
 		
-		try (
-			FileWriter fw = new FileWriter(input,true);
-			BufferedWriter bw = new BufferedWriter(fw);
-			PrintWriter pw = new PrintWriter(bw);
-			) {
+		try(PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input, true), StandardCharsets.UTF_8))){
 				pw.println(contain);
 				pw.close();
 			
@@ -96,8 +95,9 @@ public class ThoiKhoaBieuForm {
 					chooser.showOpenDialog(null);
 					File f = chooser.getSelectedFile();
 					String filePath = f.getAbsolutePath();
-					txtDuongDan.setText(filePath);					
-					BufferedReader br =new BufferedReader(new FileReader(new File(filePath)));
+					txtDuongDan.setText(filePath);
+					Path pathToFile = Paths.get(filePath);
+					BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.UTF_8);
 					List<String[]> elements = new ArrayList<String[]>();
 					String getTKB1 = txtDuongDan.getText();
 					String getTKB2 = getTKB1.substring(getTKB1.lastIndexOf("\\")+1).substring(0, 5);
@@ -183,8 +183,8 @@ public class ThoiKhoaBieuForm {
 				QL_TKB tkb = new QL_TKB();
 				tkb.getFrmQLTKB().setLocationRelativeTo(null);
 				tkb.getFrmQLTKB().setVisible(true);
-				try(FileReader fr = new FileReader(fileWriteClass);
-				BufferedReader br = new BufferedReader(fr)){
+				Path pathToFile = Paths.get(fileWriteClass);
+				try(BufferedReader br = Files.newBufferedReader(pathToFile,StandardCharsets.UTF_8)){
 					String line = br.readLine();
 					while(line != null) {
 						

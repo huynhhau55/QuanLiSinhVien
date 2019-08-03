@@ -43,10 +43,9 @@ public class XemDiemForm {
 	}
 	String readFile(String filePath2) {
 		
-		String line2 = null;
 		Path pathToFile2 = Paths.get(filePath2);
 		try(BufferedReader br2 = Files.newBufferedReader(pathToFile2, StandardCharsets.UTF_8)){
-			
+			String line2 = null;
 			while ((line2 = br2.readLine()) != null) {
 				
 				String[] spiltted = line2.split(";");
@@ -64,7 +63,7 @@ public class XemDiemForm {
 		
 	}
 	
-	String readFileForClass(String filePath) {
+	String readFileForClass(String filePath, String maSV) {
 		
 		Path pathToFile = Paths.get(filePath);
 		List<String> dsLop = new ArrayList<String>();
@@ -73,15 +72,38 @@ public class XemDiemForm {
 			String line = null;
 			String hoTen_ = null;
 			String fileName = null;
+			String line2 = null;
 			while ((line = br.readLine()) != null) {
 
 					dsLop.add(line);
 			}
 			br.close();
-			for(int i=0; i < dsLop.size(); i++ ) {
+			String a ;
+			for(int i = 0; i < dsLop.size(); i++ ) {
+				//if(i == 0) {
+					a = dsLop.get(i).substring(1);
+				//}
+				//else {
+					a = dsLop.get(i);
+				//}
 				
-				fileName = ".\\Data\\Lop\\" + dsLop.get(i) + ".csv";
-				hoTen_ = readFile(fileName);
+				
+				fileName = ".\\Data\\Lop\\" + a + ".csv";
+				Path pathToFile2 = Paths.get(fileName);
+				try(BufferedReader br2 = Files.newBufferedReader(pathToFile2, StandardCharsets.UTF_8)){
+					
+					while ((line2 = br2.readLine()) != null) {
+						String[] spiltted = line2.split(";");
+						if(spiltted[1].equalsIgnoreCase(maSV)) {
+							hoTen_ =  spiltted[2];
+						}
+					}
+					br2.close();
+				}catch(Exception e2) {
+					
+					e2.printStackTrace();
+				}
+				
 				if(hoTen_ != null) {
 					
 					return hoTen_.toUpperCase() + ", LỚP " +dsLop.get(i);
@@ -146,7 +168,7 @@ public class XemDiemForm {
 					"STT","Lớp Môn Học","Mã Môn Học","Tên Môn Học","Điểm Giữa Kỳ", "Điểm Cuối Kỳ", "Điểm Khác", "Tổng Điểm", "Kết Quả"					
 			};
 			Object[][] content = new Object[bangDiemS2.size()][9];
-			int sTT = 1;int Dau = 0;int Rot = 0;
+			int sTT = 1;
 			for(int i = 0; i < bangDiemS2.size(); i++) {
 				for(int j = 0; j < 9; j++) {
 					if(j == 0){
@@ -157,15 +179,6 @@ public class XemDiemForm {
 					else if(j == 8) {
 						
 						content[i][8] = dauRot(bangDiemS2.get(i)[6].toString());
-						if(content[i][8].toString().equalsIgnoreCase("Đậu")){
-							
-							Dau++;
-						}
-						else if(content[i][8].toString().equalsIgnoreCase("Rớt")) {
-							
-							Rot++;
-						}
-						
 					}
 					else {
 						
@@ -216,8 +229,8 @@ public class XemDiemForm {
 			public void windowOpened(WindowEvent e) {
 				
 				String filePath = ".\\Data\\Lop\\CacLopHienCo.csv";
-				lblXinChao2.setText(readFileForClass(filePath));
 				String maSV = lblMSSV.getText();
+				lblXinChao2.setText(readFileForClass(filePath,maSV));
 				readDiem(".\\Data\\Diem\\FileDaImport.csv",maSV);
 				
 			}

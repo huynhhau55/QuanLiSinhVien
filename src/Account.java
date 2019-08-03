@@ -30,7 +30,7 @@ public class Account {
 	        return user + pass;
 	 }
 	 public static List<Account> readAccounts (String fileName){
-		 List<Account> accounts = new ArrayList<>();
+		 List<Account> accounts = new ArrayList<Account>();
 		 Path pathToFile = Paths.get(fileName);
 		 try(BufferedReader br = Files.newBufferedReader(pathToFile,StandardCharsets.UTF_8)){
 			 String line = br.readLine();

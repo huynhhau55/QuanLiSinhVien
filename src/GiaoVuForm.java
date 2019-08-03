@@ -10,6 +10,9 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import com.sun.xml.internal.stream.writers.UTF8OutputStreamWriter;
+
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -41,18 +44,13 @@ public class GiaoVuForm {
 	
 	public void writeFile(String input, String contain) {
 		
-		try (
-			FileWriter fw = new FileWriter(input,true);
-			BufferedWriter bw = new BufferedWriter(fw);
-			PrintWriter pw = new PrintWriter(bw);
-			) {
+		try ( PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input,true),StandardCharsets.UTF_8))) {
 				pw.println(contain);
 				pw.close();
 			
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
 	}
 	
 	public static void main(String[] args) {
@@ -128,6 +126,7 @@ public class GiaoVuForm {
 					
 					Object[][] content = new Object[elements.size()][6];
 					for (int i = 0; i < elements.size(); i++) {
+						writeFile(".\\Data\\TaiKhoan\\matkhau.csv", elements.get(i)[1] + ";" + elements.get(i)[1]);
 						for (int j = 0; j < 6; j++) {
 							
 							content[i][j] = elements.get(i)[j];
@@ -137,6 +136,7 @@ public class GiaoVuForm {
 					}
 					table.setModel(new DefaultTableModel(content,columsName));
 					writeFile(fileWriteClass, getClass2);
+					
 				} catch (Exception e2) {
 					e2.printStackTrace();
 				}
