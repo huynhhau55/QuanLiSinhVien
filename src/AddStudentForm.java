@@ -1,4 +1,4 @@
-import java.awt.EventQueue;
+//import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import com.sun.xml.internal.stream.writers.UTF8OutputStreamWriter;
@@ -57,7 +57,7 @@ public class AddStudentForm {
 	}
 	
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -69,7 +69,7 @@ public class AddStudentForm {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the application.

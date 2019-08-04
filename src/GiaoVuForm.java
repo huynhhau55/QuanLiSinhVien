@@ -1,4 +1,4 @@
-import java.awt.EventQueue;
+//import java.awt.EventQueue;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -51,7 +51,7 @@ public class GiaoVuForm {
 		}
 	}
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -63,7 +63,7 @@ public class GiaoVuForm {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the application.
